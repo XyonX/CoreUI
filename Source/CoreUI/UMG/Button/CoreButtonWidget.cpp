@@ -4,9 +4,15 @@
 UCoreButton::UCoreButton(const FObjectInitializer& ObjectInitializer)
 				: Super(ObjectInitializer)
 {
+	
+}
+
+UCoreButton::UCoreButton(const FObjectInitializer& ObjectInitializer ,UTexture2D* Image ,FString Text)
+				: Super(ObjectInitializer)
+{
 	// Set default values for properties
-	ButtonText = "Button";
-	ButtonImage = nullptr;
+	ButtonText = Text;
+	ButtonImage = Image;
 }
 
 void UCoreButton::SynchronizeProperties()

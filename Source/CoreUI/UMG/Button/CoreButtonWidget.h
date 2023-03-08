@@ -13,6 +13,7 @@ class COREUI_API UCoreButton : public UButton
 
 public:
 	UCoreButton(const FObjectInitializer& ObjectInitializer);
+	UCoreButton(const FObjectInitializer& ObjectInitializer ,UTexture2D* Image ,FString Text );
 	
 	//virtual void NativeConstruct() override;
 
