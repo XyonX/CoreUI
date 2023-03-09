@@ -7,7 +7,7 @@
 #include "CoreButtonWidget.generated.h"
 
 UCLASS()
-class COREUI_API UCoreButton : public UButton
+class COREUI_API UCoreButton : public UWidget
 {
 	GENERATED_BODY()
 
@@ -19,6 +19,7 @@ public:
 
 	virtual void SynchronizeProperties() override;
 	virtual TSharedRef<SWidget> RebuildWidget() override;
+	virtual void ReleaseSlateResources(bool bReleaseChildren) override;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "MyButton")
 	FString ButtonText;

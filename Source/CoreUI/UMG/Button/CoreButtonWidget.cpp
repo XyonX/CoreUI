@@ -45,3 +45,9 @@ TSharedRef<SWidget> UCoreButton::RebuildWidget()
 	return ButtonWidget.ToSharedRef();
 	
 }
+
+void UCoreButton::ReleaseSlateResources(bool bReleaseChildren)
+{
+	Super::ReleaseSlateResources(bReleaseChildren);
+	ButtonWidget.Reset();
+}
