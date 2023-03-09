@@ -1,0 +1,155 @@
+﻿SNew(STextBlock)
+    .Text(FText::FromString("Hello World"))
+    .Name(TEXT("MyTextBlock"))
+    
+    here the naem to identify later  
+    
+    
+TSharedPtr<SWidget> MyWidget = MyContainerWidget->FindWidget(TEXT("MyTextBlock"));
+if (MyWidget.IsValid())
+{
+    TSharedPtr<STextBlock> MyTextBlock = StaticCastSharedPtr<STextBlock>(MyWidget);
+    if (MyTextBlock.IsValid())
+    {
+        // Access MyTextBlock here
+    }
+}
+
+if  i we hav e the  root of hte widget  the nwe  can gett  child slot 
+WidgetPointer->GetContent()->GetChildren()
+
+ChildSlot.GetContent()->GetChildren()[1]
+ChildSlot.GetContent()->GetChildrenAt(1)
+
+TSharedPtr<SWidget> MyWidget = MyContainerWidget->FindWidget(TEXT("MyTextBlock"));
+if (MyWidget.IsValid())
+{
+    TSharedPtr<STextBlock> MyTextBlock = StaticCastSharedPtr<STextBlock>(MyWidget);
+    if (MyTextBlock.IsValid())
+    {
+        // Access MyTextBlock here
+    }
+}
+
+
+for (int32 ChildIndex = 0; ChildIndex < MyContainerWidget->GetChildrenCount(); ++ChildIndex)
+{
+    TSharedPtr<SWidget> ChildWidget = MyContainerWidget->GetChildAt(ChildIndex);
+    TSharedPtr<STextBlock> ChildTextBlock = StaticCastSharedPtr<STextBlock>(ChildWidget);
+    if (ChildTextBlock.IsValid() && ChildTextBlock->GetName() == TEXT("MyTextBlock"))
+    {
+        // Access ChildTextBlock here
+    }
+}
+
+
+You can identify widgets by setting a 
+unique name using the .Name() method when you create them. For example:
+
+
+SNew(STextBlock)
+    .Text(FText::FromString("Hello World"))
+    .Name(TEXT("MyTextBlock"))
+
+Then you can use the .FindWidget() method to find the widget with the given name:
+
+TSharedPtr<SWidget> MyWidget = MyContainerWidget->FindWidget(TEXT("MyTextBlock"));
+if (MyWidget.IsValid())
+{
+    TSharedPtr<STextBlock> MyTextBlock = StaticCastSharedPtr<STextBlock>(MyWidget);
+    if (MyTextBlock.IsValid())
+    {
+        // Access MyTextBlock here
+    }
+}
+
+//RESIZING'
+
+Yes, you could set the size of the slot to 20x60 and set the image to be auto-sized within that slot, 
+rather than setting the size of the image to be 20x60 directly. By setting the size of the slot, 
+you ensure that the layout of the widget will be consistent with other widgets that may have different image sizes. 
+It also makes it easier to adjust the size of the image or the slot later if needed.
+
+
+
+ChildSlot
+        [    SNew(SHorizontalBox)    
+        
+                    + SHorizontalBox::Slot()        
+                        .AutoWidth()        
+                        .Padding(5.0f)        
+                        [    
+                        SNew(SButton)            
+                        .Text(FText::FromString(TEXT("Click Me!")))   
+                         ]
+
+                    + SHorizontalBox::Slot()
+                        .AutoWidth()
+                        .Padding(5.0f)
+                        [
+                        SNew(SImage)
+                        .Image(FSlateDynamicImageBrush::Create(TEXT("ImageFilePath"), FVector2D(100.0f, 100.0f)))
+                        ]
+];
+
+
+
+ChildSlot
+[    SNew(SVerticalBox)    
+
+
+        + SVerticalBox::Slot()    
+        .HAlign(HAlign_Center)    
+        .VAlign(VAlign_Center)    
+        .AutoHeight()    
+        .Padding(5.0f)    
+
+
+                [        
+                    SNew(SImage)        
+                    .Image(ButtonImage.Get())    
+                ]
+        + SVerticalBox::Slot()
+          .HAlign(HAlign_Center)
+          .VAlign(VAlign_Center)
+          .AutoHeight()
+          .Padding(5.0f)
+            [       
+                SNew(SButton)
+                    .Text(FText::FromString(ButtonText))
+                    .OnClicked(ButtonClicked)
+            ]
+];
+
+
+ChildSlot
+[    SNew(SBox)    .WidthOverride(200)    .HeightOverride(100)    .Padding(5)    
+    [        
+    SNew(SOverlay)        
+    +SOverlay::Slot()        
+    .HAlign(HAlign_Fill)        
+    .VAlign(VAlign_Fill)        
+    [            SNew(SImage)            
+    .ColorAndOpacity(FLinearColor(1, 1, 1, 0.5))        
+    ]
+        
+        +SOverlay::Slot()
+        .HAlign(HAlign_Left)
+        .VAlign(VAlign_Center)
+        [
+            SNew(STextBlock)
+            .Text(VariableName)
+        ]
+        +SOverlay::Slot()
+        .HAlign(HAlign_Center)
+        .VAlign(VAlign_Center)
+        [
+            SNew(STextBlock)
+            .Text(VariableValue)
+        ]
+    ]
+];
+
+
+
+
