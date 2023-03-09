@@ -35,7 +35,7 @@ private:
 	FString ButtonText;
 	//FSlateBrush ButtonImage ;
 	TSharedPtr<FSlateBrush>  ButtonImage ;
-
+	TSharedPtr<SVerticalBox>RootVertBox;
 	TSharedPtr<STextBlock> TextBlock;
 	TSharedPtr<SImage> ImageWidget;
 	

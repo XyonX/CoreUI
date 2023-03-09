@@ -11,7 +11,7 @@ void SCoreButton::Construct(const FArguments& InArgs)
 	ButtonImage = Convert_UT2D_SlateBrush(InArgs._ButtonImage);
 	
 	ChildSlot
-	[    SNew(SVerticalBox)
+	[     SAssignNew(RootVertBox,SVerticalBox)
 		+ SVerticalBox::Slot()
 			.HAlign(HAlign_Center)
 			.VAlign(VAlign_Center)
@@ -26,9 +26,16 @@ void SCoreButton::Construct(const FArguments& InArgs)
 			.HAlign(HAlign_Center)
 			.VAlign(VAlign_Center)
 			.Padding(5.0f)
+			.AutoHeight()
 			[
-				SNew(SImage)
+				SNew(SBox)
+				.WidthOverride(128)
+				.HeightOverride(64)
+				[
+					SAssignNew(ImageWidget,SImage)
 					.Image(ButtonImage.Get())
+				    
+				]
 			]
 	];
 }
