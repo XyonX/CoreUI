@@ -11,13 +11,15 @@ void SDebug_Item::Construct(const FArguments& InArgs)
 {
 	VariableName  = InArgs._VarName;
 	VariableValue = InArgs._VarValue;
+	NameFontInfo = InArgs._NameInfo;
+	ValueFontInfo = InArgs._ValueInfo;
 	TSharedPtr<SHorizontalBox>DWD;
 	
 	ChildSlot
 	[
 		SNew(SBox)
-		.WidthOverride(10)
-		.HeightOverride(50)
+		.WidthOverride(RootWidth)
+		.HeightOverride(RootWidth)
 		.Padding(1)
 		
 		[
@@ -36,7 +38,7 @@ void SDebug_Item::Construct(const FArguments& InArgs)
 						.VAlign(VAlign_Fill)
 							[
 								SNew(SImage)
-								.ColorAndOpacity(FLinearColor(1, 1, 1, 1))     
+								.ColorAndOpacity(NameBGColor)     
 								//.Image(backgroundImage)
 							]
 						+ SOverlay::Slot()
@@ -45,6 +47,7 @@ void SDebug_Item::Construct(const FArguments& InArgs)
 							[
 								SNew(STextBlock)
 								.Text(VariableName)
+								.Font(NameFontInfo)
 							]
 				]
 
@@ -56,12 +59,23 @@ void SDebug_Item::Construct(const FArguments& InArgs)
 				[
 					SNew(STextBlock)
 					.Text(VariableValue)
+					.Font(ValueFontInfo)
 				]
-
-			]
+		]		
 	];
 	
 }
+
+SDebug_Item::SDebug_Item(int in_Width,  int in_Height )
+{
+	RootHeight=in_Height;
+	RootWidth  =in_Width;
+
+	NameBGColor  =FLinearColor(1.0,1.0,1.0,1.0);
+	ValueBGColor  = FLinearColor (0.0,1.0,1.0,1.0);
+	
+}
+
 
 void SDebug_Item::SetName(FText in_Name)
 {
