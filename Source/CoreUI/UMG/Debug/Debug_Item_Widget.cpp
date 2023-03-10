@@ -13,15 +13,35 @@ UDebug_Item_Widget::UDebug_Item_Widget( const FObjectInitializer& ObjectInitiali
 {
 	VariableName  =Name;
 	VariableValue = Value;
+	TSharedPtr<const FCompositeFont> MyCompositeFont = MakeShared<FCompositeFont>();
+	//UFont* MyUFont = LoadObject<UFont>(nullptr, TEXT("/Game/MyFont.MyFont"));
+	//FSlateFontInfo MySlateFontInfo(MyUFont);
+
+	//UFont* MyUFont = LoadObject<UFont>(nullptr, TEXT("/Game/MyFont.MyFont"));
+	//TSharedPtr<const FCompositeFont> MyCompositeFont = FCompositeFont::Get().GetCompositeFont(MyUFont);
+	//FSlateFontInfo MySlateFontInfo(MyCompositeFont, 16, FName("Regular"), FFontOutlineSettings());
+
+	//FTypeface Typeface;
+	//Typeface.Fonts.Add();
+
+	// Create a new FCompositeFont object using Typeface
+	//TSharedPtr<const FCompositeFont> CompositeFont = MakeShared<const FCompositeFont>();
+	//CompositeFont->
+
+	// Create a new FSlateFontInfo object using CompositeFont
+	//FSlateFontInfo FontInfo(CompositeFont, 12, FName("Regular"));
+	
 }
 
 
 
 TSharedRef<SWidget> UDebug_Item_Widget::RebuildWidget()
 {
-	DebugContainerWidget =SNew(SDebug_Item)
-							.VarName(VariableName)
-							.VarValue(VariableValue);
+		SAssignNew(Widget,SDebug_Item,Widget_Width,Widget_Height)
+	      .VarName(VariableName)
+	      .VarValue(VariableValue)
+		  .NameInfo(NameFontInfo)
+	      .ValueInfo(ValueFOntInfo);
 
 	return DebugContainerWidget.ToSharedRef();
 	

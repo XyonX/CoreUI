@@ -29,4 +29,19 @@ public:
 	FText  VariableName  ;
 	UPROPERTY(EditAnywhere,BlueprintReadWrite,Category="UMG")
 	FText  VariableValue;
+	FSlateFontInfo NameFontInfo  ;
+	FSlateFontInfo ValueFOntInfo ;
+	UPROPERTY(EditAnywhere,BlueprintReadWrite,Category="Styling")
+	int  Widget_Width ;
+	UPROPERTY(EditAnywhere,BlueprintReadWrite,Category="Styling")
+	int  Widget_Height ;
+	UPROPERTY(EditAnywhere,BlueprintReadWrite,Category="Styling")
+	UFont*Font  ;
+	UPROPERTY(EditAnywhere,BlueprintReadWrite,Category="Styling"  )
+	int FontSize_Name ;
+	UPROPERTY(EditAnywhere,BlueprintReadWrite,Category="Styling")
+	int FontSize_Value ;
+
+	TSharedPtr<SDebug_Item>  Widget ;
+	
 };
