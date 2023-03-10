@@ -150,6 +150,68 @@ ChildSlot
     ]
 ];
 
+Sure, here are some common properties of a STextBlock widget that can be set:
+
+Text: The actual text that will be displayed in the widget.
+ColorAndOpacity: The color of the text and the opacity of that color.
+Font: The font that will be used to render the text.
+ShadowOffset: The offset of a drop shadow behind the text.
+ShadowColorAndOpacity: The color and opacity of the drop shadow.
+WrapTextAt: The maximum width at which text should wrap.
+AutoWrapText: Whether or not text should wrap automatically.
+Justification: The horizontal justification of the text (left, right, center, or justified).
+LineHeightPercentage: The line height of the text as a percentage of the font size.
+Margin: The margin around the text block.
+TextShapingMethod: The text shaping method used to render the text, which can affect how certain scripts (such as Arabic or Hindi) are displayed.
+MinDesiredWidth: The minimum width that the text block should have.
+There are many more properties available, but these are some of the most commonly used.
 
 
+Yes, you can have multiple slots in a SHorizontalBox vertically. 
+You can achieve this by adding a SVerticalBox widget as a child of a SHorizontalBox slot, 
+then adding child widgets to the SVerticalBox. Here's an example:
 
+SAssignNew(RootHorizontalBox, SHorizontalBox)
+    .Tag(TEXT("RootBox"))
+    + SHorizontalBox::Slot()
+        .HAlign(HAlign_Left)
+        .VAlign(VAlign_Center)
+        .AutoWidth()
+        .Padding(5.0f)
+        [
+            // Add a vertical box as the first child of the horizontal box
+            SNew(SVerticalBox)
+            + SVerticalBox::Slot()
+                .AutoHeight()
+                .HAlign(HAlign_Center)
+                .VAlign(VAlign_Center)
+                .Padding(5.0f)
+                [
+                    SNew(STextBlock)
+                    .Text(FText::FromString("First"))
+                ]
+            + SVerticalBox::Slot()
+                .AutoHeight()
+                .HAlign(HAlign_Center)
+                .VAlign(VAlign_Center)
+                .Padding(5.0f)
+                [
+                    SNew(STextBlock)
+                    .Text(FText::FromString("Second"))
+                ]
+        ]
+    + SHorizontalBox::Slot()
+        .HAlign(HAlign_Center)
+        .VAlign(VAlign_Center)
+        .AutoWidth()
+        .Padding(5.0f)
+        [
+            SNew(STextBlock)
+            .Text(FText::FromString("Third"))
+        ];
+
+
+\
+
+/font
+.Font(FSlateFontInfo(FPaths::EngineContentDir() / TEXT("Slate/Fonts/Roboto-Regular.ttf"), 16))
