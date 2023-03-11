@@ -8,40 +8,37 @@ UDebug_Item_Widget::UDebug_Item_Widget(const FObjectInitializer& ObjectInitializ
 {
 	
 }
-
 UDebug_Item_Widget::UDebug_Item_Widget( const FObjectInitializer& ObjectInitializer, FText Name, FText Value)  :  Super(ObjectInitializer)
 {
 	VariableName  =Name;
 	VariableValue = Value;
 	TSharedPtr<const FCompositeFont> MyCompositeFont = MakeShared<FCompositeFont>();
-	//UFont* MyUFont = LoadObject<UFont>(nullptr, TEXT("/Game/MyFont.MyFont"));
-	//FSlateFontInfo MySlateFontInfo(MyUFont);
+	Widget_Width = 200;
+	Widget_Height =  20;
+	NameBG=FLinearColor(1.0,0.0,1.0,1.0);
+	ValueBG =FLinearColor(0.0,1.0,1.0,1.0);
 
-	//UFont* MyUFont = LoadObject<UFont>(nullptr, TEXT("/Game/MyFont.MyFont"));
-	//TSharedPtr<const FCompositeFont> MyCompositeFont = FCompositeFont::Get().GetCompositeFont(MyUFont);
-	//FSlateFontInfo MySlateFontInfo(MyCompositeFont, 16, FName("Regular"), FFontOutlineSettings());
+	FSlateBrush*NAMEB = &NameBrushAsset;
+	NameBrush  = MakeShareable(NAMEB);
 
-	//FTypeface Typeface;
-	//Typeface.Fonts.Add();
-
-	// Create a new FCompositeFont object using Typeface
-	//TSharedPtr<const FCompositeFont> CompositeFont = MakeShared<const FCompositeFont>();
-	//CompositeFont->
-
-	// Create a new FSlateFontInfo object using CompositeFont
-	//FSlateFontInfo FontInfo(CompositeFont, 12, FName("Regular"));
+	FSlateBrush*VALUEB =& ValueBrushAsset;
+	ValueBrush =MakeShareable((VALUEB));
 	
 }
-
-
-
 TSharedRef<SWidget> UDebug_Item_Widget::RebuildWidget()
 {
-		SAssignNew(Widget,SDebug_Item,Widget_Width,Widget_Height)
+		//SAssignNew(Widget,SDebug_Item,Widget_Width,Widget_Height)
+		SAssignNew(DebugContainerWidget,SDebug_Item)
 	      .VarName(VariableName)
 	      .VarValue(VariableValue)
-		  .NameInfo(NameFontInfo)
-	      .ValueInfo(ValueFOntInfo);
+		  .MaxHeight(Widget_Height)
+		  .MaxWidth(Widget_Width)
+		  .NameBGColor(NameBG)
+		  .ValueBGColor(ValueBG)
+	      .NameBGBrush(NameBrush)
+		  .ValueBGBrush(ValueBrush);
+		
+	
 
 	return DebugContainerWidget.ToSharedRef();
 	

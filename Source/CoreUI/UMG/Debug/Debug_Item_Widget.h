@@ -26,7 +26,7 @@ protected:
 	
 public:
 	UPROPERTY(EditAnywhere,BlueprintReadWrite,Category="UMG")
-	FText  VariableName  ;
+	FText  VariableName ;
 	UPROPERTY(EditAnywhere,BlueprintReadWrite,Category="UMG")
 	FText  VariableValue;
 	FSlateFontInfo NameFontInfo  ;
@@ -41,6 +41,17 @@ public:
 	int FontSize_Name ;
 	UPROPERTY(EditAnywhere,BlueprintReadWrite,Category="Styling")
 	int FontSize_Value ;
+	UPROPERTY(EditAnywhere,BlueprintReadWrite,Category="Styling")
+	FLinearColor NameBG ;
+	UPROPERTY(EditAnywhere,BlueprintReadWrite,Category="Styling")
+	FLinearColor ValueBG ;
+	UPROPERTY(EditAnywhere,BlueprintReadWrite,Category="Styling")
+	FSlateBrush   NameBrushAsset;
+	UPROPERTY(EditAnywhere,BlueprintReadWrite,Category="Styling")
+	FSlateBrush   ValueBrushAsset  ;
+	TSharedPtr<FSlateBrush> NameBrush;
+	TSharedPtr<FSlateBrush> ValueBrush ;
+	
 
 	TSharedPtr<SDebug_Item>  Widget ;
 	
