@@ -34,14 +34,12 @@ void UCoreButton::SynchronizeProperties()
 
 TSharedRef<SWidget> UCoreButton::RebuildWidget()
 {
-	ButtonWidget = SNew(SCoreButton)
+	SAssignNew(ButtonWidget,SCoreButton)
 		.ButtonText(ButtonText) // Convert FText to FString using FromString() function
 		.ButtonImage(ButtonImage)
 		//.OnClicked(BIND_UOBJECT_DELEGATE(FOnClicked, OnButtonClicked));
 		.OnClicked(OnClicked);
-
 	
-
 	return ButtonWidget.ToSharedRef();
 	
 }
