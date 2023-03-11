@@ -18,18 +18,27 @@ public:
 	SLATE_ARGUMENT(FSlateFontInfo ,  NameInfo)
 	SLATE_ARGUMENT(FSlateFontInfo ,  ValueInfo)
 	SLATE_ARGUMENT(FText  , VarValue)
+	SLATE_ARGUMENT(int   , MaxHeight)
+	SLATE_ARGUMENT(int   , MaxWidth)
+	SLATE_ARGUMENT(FLinearColor  , NameBGColor)
+	SLATE_ARGUMENT(FLinearColor , ValueBGColor)
+	SLATE_ARGUMENT(TSharedPtr<FSlateBrush> ,NameBGBrush)
+	SLATE_ARGUMENT(TSharedPtr<FSlateBrush> ,  ValueBGBrush)
 
 	SLATE_END_ARGS()
 
 	/** Constructs this widget with InArgs */
 	void Construct(const FArguments& InArgs);
 
-	SDebug_Item(int in_Width,  int in_Height );
+	SDebug_Item();
+	SDebug_Item(int in_Width,  int in_Height ,FLinearColor NameColor ,FLinearColor ValueColor );
 
 
 	// FUNCTIONS
 	void SetName (FText in_Name );
 	void  SetValue  (FText in_Value);
+	//
+	
 
 	template<typename T>
 	FORCEINLINE typename TSharedPtr<T>::ElementType& SAssign(TSharedPtr<T>& Ptr, const typename TSharedPtr<T>::ElementType& Widget)
@@ -41,25 +50,17 @@ private:
 	int  RootHeight ;
 	int  RootWidth ;
 	TSharedPtr<SHorizontalBox> RootHorizontalBox ;
-	
-	
-	
-	
-	
-
-	
-	
 
 	//Name
 	FText VariableName ;
 	FLinearColor NameBGColor ;
-	UTexture2D* NameBGTex ;
+	TSharedPtr<FSlateBrush> NameBGBrush ;
 	FSlateFontInfo NameFontInfo ;
 
 	//value
 	FText VariableValue ;
 	FLinearColor ValueBGColor  ;
-	UTexture2D* ValueBGTex  ;
+	TSharedPtr<FSlateBrush> ValueBGBrush  ;
 	FSlateFontInfo ValueFontInfo ;
 	
 	
