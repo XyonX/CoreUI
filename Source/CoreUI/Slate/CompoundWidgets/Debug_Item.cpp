@@ -28,6 +28,7 @@ void SDebug_Item::Construct(const FArguments& InArgs)
 		.HeightOverride(RootHeight)
 		.HAlign(HAlign_Fill)
 		.VAlign(VAlign_Fill)
+		
 		[
 			SNew(SBorder)
 			.Padding(0.0f)

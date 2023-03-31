@@ -40,5 +40,5 @@ private:
 	TSharedPtr<SImage> ImageWidget;
 	
 
-	FOnClicked OnClicked;
+	//FOnClicked OnClicked;
 };

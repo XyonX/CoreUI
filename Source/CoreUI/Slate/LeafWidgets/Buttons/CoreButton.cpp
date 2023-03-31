@@ -7,7 +7,7 @@
 void SCoreButton::Construct(const FArguments& InArgs)
 {
 	ButtonText = InArgs._ButtonText ;
-	OnClicked = InArgs._OnClicked;
+	//OnClicked = InArgs._OnClicked;
 	ButtonImage = Convert_UT2D_SlateBrush(InArgs._ButtonImage);
 	
 	ChildSlot

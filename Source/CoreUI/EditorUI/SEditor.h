@@ -5,12 +5,13 @@
 #include "CoreMinimal.h"
 #include "Widgets/SCompoundWidget.h"
 
-
-
-class COREUI_API STestWidget : public SCompoundWidget
+/**
+ * 
+ */
+class COREUI_API SEditor : public SCompoundWidget
 {
 public:
-	SLATE_BEGIN_ARGS(STestWidget)
+	SLATE_BEGIN_ARGS(SEditor)
 		{
 		}
 
@@ -18,5 +19,4 @@ public:
 
 	/** Constructs this widget with InArgs */
 	void Construct(const FArguments& InArgs);
-	
 };

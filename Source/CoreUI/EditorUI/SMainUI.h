@@ -5,12 +5,12 @@
 #include "CoreMinimal.h"
 #include "Widgets/SCompoundWidget.h"
 
+DECLARE_DELEGATE_RetVal(bool,FonButtonClick)
 
-
-class COREUI_API STestWidget : public SCompoundWidget
+class COREUI_API SMainUI : public SCompoundWidget
 {
 public:
-	SLATE_BEGIN_ARGS(STestWidget)
+	SLATE_BEGIN_ARGS(SMainUI)
 		{
 		}
 
@@ -18,5 +18,11 @@ public:
 
 	/** Constructs this widget with InArgs */
 	void Construct(const FArguments& InArgs);
+
+	static FonButtonClick  ButtonClickDelegate ;
+
+	static FReply HandleButtonClick ();
+
 	
+	bool  OnButtonClicked();
 };
