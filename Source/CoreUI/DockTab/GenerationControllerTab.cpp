@@ -13,7 +13,8 @@
 
 #define LOCTEXT_NAMESPACE "ControllerText"
 
- FName SGenerationControllerTab::TabName(TEXT("ControllerTab"));
+FName SGenerationControllerTab::TabName(TEXT("ControllerTab"));
+FOnGenerateButtonClick SGenerationControllerTab::GenerateDelegate;
 
 SGenerationControllerTab::SGenerationControllerTab()
 {
@@ -22,33 +23,9 @@ SGenerationControllerTab::SGenerationControllerTab()
 
 void SGenerationControllerTab::Construct(const FArguments& InArgs)
 {
-	/*// Create an instance of your widget
-	Widget = SNew(SVerticalBox);
 
-	// Add some content to the widget using AddSlot
-	Widget->AddSlot()
-		.AutoHeight()
-		.HAlign(HAlign_Center)
-		.VAlign(VAlign_Center)
-			[SNew(STextBlock)
-			.Text(FText::FromString("Hello, World!"))
-			];
-
-
+	GenerateDelegate.BindStatic(OnGenerateClick);
 	
-	// Add the widget to a SBox so we can control the size of the widget
-	
-	TSharedPtr<SBox> MyBox = SNew(SBox)
-		.WidthOverride(100.0f)
-		.HeightOverride(500.0f)
-		[
-			Widget.ToSharedRef()
-		];
-
-	// Set the content of the dockable tab to the SBox containing the widget
-	this->SetContent(MyBox.ToSharedRef());*/
-
-
 	ChildSlot
 [
 	SNew(SBox)
@@ -59,91 +36,23 @@ void SGenerationControllerTab::Construct(const FArguments& InArgs)
 	SNew(SVerticalBox)
 		+ SVerticalBox::Slot()
 		.HAlign(HAlign_Left)
-		.VAlign(VAlign_Top)
-		.AutoHeight()
-		[
-			SNew(SExpandableArea)
-			.HeaderContent()
-			[    SNew(STextBlock)
-				  .Text(FText::FromString("Duration"))
-			]
-			.BodyContent()
-			[
-				SNew(SVerticalBox)
-						
-				//SLOT 1 
-				+ SVerticalBox::Slot()
-				.HAlign(HAlign_Left)
-				.VAlign(VAlign_Top)
-				.AutoHeight()
-				[
-					  SNew(SHorizontalBox)
-					  
-					  + SHorizontalBox::Slot()
-					  .Padding(5.0f)
-					  .HAlign(HAlign_Left)
-					  .VAlign(VAlign_Center)
-					  .AutoWidth()
-						  [
-							SNew(STextBlock)
-							.Text(FText::FromString("Emitter Duration:"))
-						  ]
-						  
-					  + SHorizontalBox::Slot()
-					  .Padding(10.0f)
-					  .HAlign(HAlign_Right)
-					  .VAlign(VAlign_Center)
-					  .AutoWidth()
-						  [
-							SNew(SSpinBox<float>)
-							.Value(1.0f)
-							.MinValue(0.0f)
-							.MaxValue(100.0f)
-							//.OnValueChanged(this, &MyClass::OnSpinBoxValueChanged)
-						  ]
-				]
-
-				//SLOT   2
-				+ SVerticalBox::Slot()
-				.Padding(2.0f)
-				.HAlign(HAlign_Left)
-				.VAlign(VAlign_Center)
-				.AutoHeight()
-				[
-							
-				  SNew(SHorizontalBox)
-				  
-				  + SHorizontalBox::Slot()
-				  .HAlign(HAlign_Left)
-				  .VAlign(VAlign_Center)
-				  .AutoWidth()
-					  [
-						SNew(STextBlock)
-						.Text(FText::FromString("Emitter Loop:"))
-					  ]
-				  + SHorizontalBox::Slot()
-				  .AutoWidth()
-					  [
-						SNew(SCheckBox)
-						.IsChecked(false)
-					  ]
-				]
-			]
-		]
-		+ SVerticalBox::Slot()
-		.HAlign(HAlign_Left)
 		.VAlign(VAlign_Center)
 		.AutoHeight()
 		[
 			SNew(SExpandableArea)
 			.HeaderContent()
 			[    SNew(STextBlock)
-				  .Text(FText::FromString("Duration"))
+				  .Text(FText::FromString("Generation"))
 			]
 			.BodyContent()
 			[
 				SNew(SButton)
-				.Text(FText::FromString("Generate"))
+				.Text(FText::FromString("ReGenerate"))
+				.OnClicked(FOnClicked::CreateLambda([]() {
+					GenerateDelegate.Execute();
+					// Code to execute when the button is clicked
+					return FReply::Handled();
+					}))
 			]
 		]
 		
@@ -191,5 +100,15 @@ FName SGenerationControllerTab::GetTabIdentifier() const
 {
 	return TabName;
 }
+
+bool SGenerationControllerTab::OnGenerateClick()
+{
+	if (GEngine) {
+		GEngine->AddOnScreenDebugMessage(-1, 2.0f, FColor::Green, TEXT(" Generating  "));
+	}
+
+	return true;
+}
+
 
 #undef  LOCTEXT_NAMESPACE

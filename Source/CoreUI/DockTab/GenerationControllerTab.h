@@ -4,6 +4,8 @@
 
 #include "CoreMinimal.h"
 
+DECLARE_DELEGATE_RetVal(bool, FOnGenerateButtonClick)
+
 class COREUI_API SGenerationControllerTab : public SDockTab
 {
 public:
@@ -24,8 +26,15 @@ public:
 	//const FName TabName  =FName("ControllerTab");
 	// Get the tab identifier
 	FName GetTabIdentifier() const;
+
+		
+	static FOnGenerateButtonClick GenerateDelegate ;
+
+
+	static bool OnGenerateClick ();
 private:
 	TSharedPtr<SVerticalBox> Widget;
+		
 	
 };
 				
