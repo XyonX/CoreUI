@@ -25,40 +25,85 @@ void SGenerationControllerTab::Construct(const FArguments& InArgs)
 {
 
 	GenerateDelegate.BindStatic(OnGenerateClick);
+
+
+	
 	
 	ChildSlot
-[
-	SNew(SBox)
-	.HAlign(HAlign_Fill)
-	.VAlign(VAlign_Fill)
 	[
-		
-	SNew(SVerticalBox)
-		+ SVerticalBox::Slot()
-		.HAlign(HAlign_Left)
-		.VAlign(VAlign_Center)
-		.AutoHeight()
+		SNew(SBox)
+		.HAlign(HAlign_Fill)
+		.VAlign(VAlign_Fill)
 		[
-			SNew(SExpandableArea)
-			.HeaderContent()
-			[    SNew(STextBlock)
-				  .Text(FText::FromString("Generation"))
-			]
-			.BodyContent()
-			[
-				SNew(SButton)
-				.Text(FText::FromString("ReGenerate"))
-				.OnClicked(FOnClicked::CreateLambda([]() {
-					GenerateDelegate.Execute();
-					// Code to execute when the button is clicked
-					return FReply::Handled();
-					}))
-			]
+			SAssignNew(MainHorizontalBox,SHorizontalBox)
+		]
+	];
+
+	MainHorizontalBox->AddSlot()
+	.VAlign(VAlign_Fill)
+	.HAlign(HAlign_Left)
+	.FillWidth(0.7f)
+	[
+		SAssignNew(Widget, SVerticalBox)
+	];
+	SB_TabSwitcher = MakeShareable(new FSlateBrush);
+	
+	SB_TabSwitcher->TintColor == FLinearColor(1.0f, 0.0f, 1.0f, 1.0f); // red color
+	SB_TabSwitcher->DrawAs = ESlateBrushDrawType::Box;
+	SB_TabSwitcher->Margin = FMargin(0.0f, 0.0f, 0.0f, 0.0f);
+
+	
+	MainHorizontalBox->AddSlot()
+	.VAlign(VAlign_Fill)
+	.HAlign(HAlign_Right)
+	.FillWidth(0.3f)
+	[
+	  SNew(SBorder)
+	  .BorderBackgroundColor( FLinearColor(1.0f,0.0f,0.0f,1.0f))
+	  [
+		SAssignNew(TabSwitcher,SVerticalBox)
+		+ SVerticalBox::Slot() // Add a slot for the SImage widget
+		[
+			SNew(SImage)
+			.Image(SB_TabSwitcher.Get())
+			.ColorAndOpacity(FLinearColor(1.0,1.0f,1.0f,0.5f))
 		]
 		
-	]
+	  ]
+	];
 
-];
+	
+	Widget->AddSlot()
+	.HAlign(HAlign_Fill)
+	.VAlign(VAlign_Top)
+	[
+			
+		SNew(SExpandableArea)
+		.BorderBackgroundColor(FLinearColor(1.0f, 1.0f, 1.0f, 0.5f))
+		.BodyBorderBackgroundColor(FLinearColor(0.25f, 0.25f, 0.25f, 0.5f))
+		.HeaderContent()
+		[
+				SNew(SBorder)
+				.BorderBackgroundColor(FLinearColor(1.0f, 1.0f, 1.0f, 1.0f))
+					[
+					  SNew(STextBlock)
+					  .Font(FSlateFontInfo(FPaths::EngineContentDir() / TEXT("Slate/Fonts/Roboto-Bold.ttf"), 10))
+					  .ColorAndOpacity(FLinearColor::White)
+					  .Text(FText::FromString("Generation"))
+
+					]
+		]
+		.BodyContent()
+		[
+			SNew(SButton)
+			.Text(FText::FromString("ReGenerate"))
+			.ButtonStyle(FEditorStyle::Get(), "FlatButton.Success")
+			.OnClicked(FOnClicked::CreateLambda([]() {
+				GenerateDelegate.Execute();
+				return FReply::Handled();
+			}))
+		]
+	];
 }
 
 void SGenerationControllerTab::RegisterTabSpawner()
@@ -103,9 +148,9 @@ FName SGenerationControllerTab::GetTabIdentifier() const
 
 bool SGenerationControllerTab::OnGenerateClick()
 {
-	if (GEngine) {
-		GEngine->AddOnScreenDebugMessage(-1, 2.0f, FColor::Green, TEXT(" Generating  "));
-	}
+	//if (GEngine) {
+		//GEngine->AddOnScreenDebugMessage(-1, 2.0f, FColor::Green, TEXT(" Generating  "));
+	//}
 
 	return true;
 }

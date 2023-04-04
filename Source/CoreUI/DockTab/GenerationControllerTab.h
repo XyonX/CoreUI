@@ -30,10 +30,19 @@ public:
 		
 	static FOnGenerateButtonClick GenerateDelegate ;
 
+	//getter
+	 FORCEINLINE TSharedPtr<SVerticalBox> GetWidget () {return Widget; }
+
 
 	static bool OnGenerateClick ();
+	//TSharedPtr<SButton>GenerateButton ;
+
+	TSharedPtr<FSlateBrush> SB_TabSwitcher ;
 private:
+	TSharedPtr<SHorizontalBox>MainHorizontalBox;
 	TSharedPtr<SVerticalBox> Widget;
+	TSharedPtr<SVerticalBox> TabSwitcher;
+	
 		
 	
 };
