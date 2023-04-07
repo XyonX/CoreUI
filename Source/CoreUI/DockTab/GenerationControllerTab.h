@@ -5,6 +5,7 @@
 #include "CoreMinimal.h"
 
 DECLARE_DELEGATE_RetVal(bool, FOnGenerateButtonClick)
+DECLARE_DELEGATE_RetVal(bool, FOnButtonClick_Debug)
 
 class COREUI_API SGenerationControllerTab : public SDockTab
 {
@@ -29,12 +30,14 @@ public:
 
 		
 	static FOnGenerateButtonClick GenerateDelegate ;
+	static FOnButtonClick_Debug DebugDelegate ;
 
 	//getter
 	 FORCEINLINE TSharedPtr<SVerticalBox> GetWidget () {return Widget; }
 
 
 	static bool OnGenerateClick ();
+	static bool OnDebug ();
 	//TSharedPtr<SButton>GenerateButton ;
 
 	TSharedPtr<FSlateBrush> SB_TabSwitcher ;

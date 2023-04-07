@@ -9,13 +9,14 @@
 #include "SlateOptMacros.h"
 #include "Widgets/Layout/SExpandableArea.h"
 #include "Widgets/Input/SSpinBox.h"
+#include "Widgets/Layout/SGridPanel.h"
 
 
 #define LOCTEXT_NAMESPACE "ControllerText"
 
 FName SGenerationControllerTab::TabName(TEXT("ControllerTab"));
 FOnGenerateButtonClick SGenerationControllerTab::GenerateDelegate;
-
+FOnButtonClick_Debug SGenerationControllerTab::DebugDelegate;
 SGenerationControllerTab::SGenerationControllerTab()
 {
 
@@ -25,9 +26,15 @@ void SGenerationControllerTab::Construct(const FArguments& InArgs)
 {
 
 	GenerateDelegate.BindStatic(OnGenerateClick);
+	DebugDelegate.BindStatic(OnDebug);
 
 
 	
+	SB_TabSwitcher = MakeShareable(new FSlateBrush);
+	
+	SB_TabSwitcher->TintColor == FLinearColor(1.0f, 0.0f, 1.0f, 1.0f); // red color
+	SB_TabSwitcher->DrawAs = ESlateBrushDrawType::Box;
+	SB_TabSwitcher->Margin = FMargin(0.0f, 0.0f, 0.0f, 0.0f);
 	
 	ChildSlot
 	[
@@ -35,44 +42,55 @@ void SGenerationControllerTab::Construct(const FArguments& InArgs)
 		.HAlign(HAlign_Fill)
 		.VAlign(VAlign_Fill)
 		[
-			SAssignNew(MainHorizontalBox,SHorizontalBox)
+			SNew(SHorizontalBox)
+			
+			+ SHorizontalBox::Slot()
+			.HAlign(HAlign_Left)
+			.VAlign(VAlign_Fill)
+			[
+				SAssignNew(Widget, SVerticalBox)
+
+			]
+			
+			+ SHorizontalBox::Slot()
+			.HAlign(HAlign_Right)
+			.VAlign(VAlign_Fill)
+			.AutoWidth()
+			[
+					SNew(SBorder)
+				 .BorderBackgroundColor( FLinearColor(1.0f,1.0f,1.0f,1.0f))
+				 [
+				   SAssignNew(TabSwitcher,SVerticalBox)
+				   + SVerticalBox::Slot() // Add a slot for the SImage widget
+				   [
+					   SNew(SImage)
+					   .Image(SB_TabSwitcher.Get())
+					   .ColorAndOpacity(FLinearColor(1.0,1.0f,1.0f,0.5f))
+				   ]
+						
+				 ]
+
+			]
 		]
 	];
 
-	MainHorizontalBox->AddSlot()
-	.VAlign(VAlign_Fill)
-	.HAlign(HAlign_Left)
-	.FillWidth(0.7f)
+	Widget->AddSlot()
 	[
-		SAssignNew(Widget, SVerticalBox)
-	];
-	SB_TabSwitcher = MakeShareable(new FSlateBrush);
-	
-	SB_TabSwitcher->TintColor == FLinearColor(1.0f, 0.0f, 1.0f, 1.0f); // red color
-	SB_TabSwitcher->DrawAs = ESlateBrushDrawType::Box;
-	SB_TabSwitcher->Margin = FMargin(0.0f, 0.0f, 0.0f, 0.0f);
+			SNew(SVerticalBox)
+			+ SVerticalBox::Slot()
+			.VAlign(VAlign_Top)
+			[
+				SNew(SButton)
+				.Text(FText::FromString("Debug "))
+				.ButtonStyle(FEditorStyle::Get(), "FlatButton.Success")
+				.OnClicked(FOnClicked::CreateLambda([]() {
+					DebugDelegate.Execute();
+					return FReply::Handled();
+				}))
 
-	
-	MainHorizontalBox->AddSlot()
-	.VAlign(VAlign_Fill)
-	.HAlign(HAlign_Right)
-	.FillWidth(0.3f)
-	[
-	  SNew(SBorder)
-	  .BorderBackgroundColor( FLinearColor(1.0f,0.0f,0.0f,1.0f))
-	  [
-		SAssignNew(TabSwitcher,SVerticalBox)
-		+ SVerticalBox::Slot() // Add a slot for the SImage widget
-		[
-			SNew(SImage)
-			.Image(SB_TabSwitcher.Get())
-			.ColorAndOpacity(FLinearColor(1.0,1.0f,1.0f,0.5f))
-		]
-		
-	  ]
-	];
+			]
 
-	
+	];
 	Widget->AddSlot()
 	.HAlign(HAlign_Fill)
 	.VAlign(VAlign_Top)
@@ -153,6 +171,11 @@ bool SGenerationControllerTab::OnGenerateClick()
 	//}
 
 	return true;
+}
+
+bool SGenerationControllerTab::OnDebug()
+{
+	return true ;
 }
 
 
