@@ -10,7 +10,7 @@ BEGIN_SLATE_FUNCTION_BUILD_OPTIMIZATION
 void SBottomBuildingsPanel::Construct(const FArguments& InArgs)
 {
 	SizeboxSize  = InArgs._Size;
-	BGBrush=InArgs._BGSlateBrush;
+	BGBrush= Convert_UT2D_SlateBrush(InArgs._BGImage);
 	ChildSlot
 	[
 		SNew(SBorder)
@@ -40,7 +40,7 @@ TSharedRef<SWidget> SBottomBuildingsPanel::BuildUI()
 			.AutoWidth()
 			[
 			
-				SNew(SImage)
+			SAssignNew(ImageWidget,SImage)
 				.Image(BGBrush.Get())
 			]
 		];
@@ -72,6 +72,26 @@ FVector2D SBottomBuildingsPanel::CalcualteWidgetSize()
 	////Viewport Center!
 	//const FVector2D ViewportCenter = FVector2D(ViewportSize.X/2, ViewportSize.Y/2);
 return FVector2D::ZeroVector;
+}
+
+void SBottomBuildingsPanel::SetImage(UTexture2D* NewImage)
+{
+	BGBrush  =  Convert_UT2D_SlateBrush(NewImage);
+	if (NewImage != nullptr)
+	{
+		if (ImageWidget.IsValid())
+		{
+			ImageWidget->SetImage(BGBrush.Get());
+		}
+	}
+}
+
+TSharedPtr<FSlateBrush> SBottomBuildingsPanel::Convert_UT2D_SlateBrush(UTexture2D* NewImage)
+{
+	FSlateBrush* Brush = new FSlateBrush();
+	Brush->SetResourceObject(NewImage);
+	TSharedPtr<FSlateBrush>  Image  =MakeShareable(Brush);
+	return Image;
 }
 
 END_SLATE_FUNCTION_BUILD_OPTIMIZATION

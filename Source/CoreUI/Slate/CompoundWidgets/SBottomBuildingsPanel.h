@@ -16,7 +16,7 @@ public:
 	{}
 
 	SLATE_ARGUMENT(FVector2D , Size)
-	SLATE_ARGUMENT(TSharedPtr<FSlateBrush> ,BGSlateBrush)
+	SLATE_ARGUMENT(UTexture2D*,BGImage)
 	SLATE_END_ARGS()
 
 	/** Constructs this widget with InArgs */
@@ -25,7 +25,24 @@ public:
 	TSharedRef<SWidget> BuildUI();
 	FVector2D CalcualteWidgetSize ();
 
+
+	//Setters
+	void SetImage( UTexture2D* NewImage);
+
+
+	// helper function
+	TSharedPtr<FSlateBrush> Convert_UT2D_SlateBrush (UTexture2D* NewImage);
+
+
+private:
+	//FString ButtonText;
+	//FSlateBrush ButtonImage ;
+	//TSharedPtr<FSlateBrush>  BGBrush ;
+	//TSharedPtr<SVerticalBox>RootVertBox;
+	//TSharedPtr<STextBlock> TextBlock;
+	//TSharedPtr<SImage> ImageWidget;
+
 	FVector2D SizeboxSize ;
 	TSharedPtr<FSlateBrush> BGBrush ;
-	TSharedPtr<UTexture2D> BGImage ;
+	TSharedPtr<SImage> ImageWidget;
 };
