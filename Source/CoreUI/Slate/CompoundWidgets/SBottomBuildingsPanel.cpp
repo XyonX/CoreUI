@@ -7,6 +7,11 @@
 
 BEGIN_SLATE_FUNCTION_BUILD_OPTIMIZATION
 
+SBottomBuildingsPanel::SBottomBuildingsPanel()
+{
+	SizeboxSize=FVector2D(200,1000);
+}
+
 void SBottomBuildingsPanel::Construct(const FArguments& InArgs)
 {
 	SizeboxSize  = InArgs._Size;
@@ -37,7 +42,42 @@ TSharedRef<SWidget> SBottomBuildingsPanel::BuildUI()
 		SNew(SHorizontalBox)
 			
 			+ SHorizontalBox::Slot()
-			.AutoWidth()
+			.FillWidth(1.0f)
+			[
+			
+			SAssignNew(ImageWidget,SImage)
+				.Image(BGBrush.Get())
+			]
+			+ SHorizontalBox::Slot()
+			.FillWidth(1.0f)
+			[
+			
+			SAssignNew(ImageWidget,SImage)
+				.Image(BGBrush.Get())
+			]
+			+ SHorizontalBox::Slot()
+			.FillWidth(1.0f)
+			[
+			
+			SAssignNew(ImageWidget,SImage)
+				.Image(BGBrush.Get())
+			]
+			+ SHorizontalBox::Slot()
+			.FillWidth(1.0f)
+			[
+			
+			SAssignNew(ImageWidget,SImage)
+				.Image(BGBrush.Get())
+			]
+			+ SHorizontalBox::Slot()
+			.FillWidth(1.0f)
+			[
+			
+			SAssignNew(ImageWidget,SImage)
+				.Image(BGBrush.Get())
+			]
+			+ SHorizontalBox::Slot()
+			.FillWidth(1.0f)
 			[
 			
 			SAssignNew(ImageWidget,SImage)
@@ -84,6 +124,11 @@ void SBottomBuildingsPanel::SetImage(UTexture2D* NewImage)
 			ImageWidget->SetImage(BGBrush.Get());
 		}
 	}
+}
+
+void SBottomBuildingsPanel::SetSize(FVector2D in_size)
+{
+	SizeboxSize=in_size;
 }
 
 TSharedPtr<FSlateBrush> SBottomBuildingsPanel::Convert_UT2D_SlateBrush(UTexture2D* NewImage)

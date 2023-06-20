@@ -26,6 +26,7 @@ void UTopDownIngameScreen::SynchronizeProperties()
 	if(BottomPanelWidget.IsValid())
 	{
 		BottomPanelWidget->SetImage(BGImage);
+		BottomPanelWidget->SetSize(SizeBoxSize);
 	}
 }
 

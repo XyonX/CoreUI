@@ -18,6 +18,7 @@ public:
 	SLATE_ARGUMENT(FVector2D , Size)
 	SLATE_ARGUMENT(UTexture2D*,BGImage)
 	SLATE_END_ARGS()
+	SBottomBuildingsPanel();
 
 	/** Constructs this widget with InArgs */
 	void Construct(const FArguments& InArgs);
@@ -28,6 +29,7 @@ public:
 
 	//Setters
 	void SetImage( UTexture2D* NewImage);
+	void SetSize( FVector2D in_size);
 
 
 	// helper function
