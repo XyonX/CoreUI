@@ -15,7 +15,6 @@ class COREUI_API UTopDownIngameScreen : public UUserWidget
 public:
 	
 	UTopDownIngameScreen(const FObjectInitializer& ObjectInitializer);
-	UTopDownIngameScreen(const FObjectInitializer& ObjectInitializer ,UTexture2D* Image ,FVector2D Size );
 	
 	//virtual void NativeConstruct() override;
 
@@ -27,8 +26,19 @@ public:
 	FVector2D SizeBoxSize;
 	UPROPERTY(EditAnywhere,BlueprintReadWrite,Category="Slate")
 	UTexture2D*BGImage;
+	
+	TSharedPtr<FSlateBrush>BackgroundBrush;
+	
+
+	TSharedPtr<FSlateBrush> Convert_UT2D_SlateBrush(UTexture2D* NewImage);
+
+
+	void SetBackgroundImage (UTexture2D* Texture);
+	void SetSize (FVector2D in_Size);
 
 private:
 	TSharedPtr<class SBottomBuildingsPanel> BottomPanelWidget;
 	
 };
+
+
