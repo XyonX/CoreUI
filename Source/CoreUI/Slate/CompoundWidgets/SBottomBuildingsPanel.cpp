@@ -4,27 +4,27 @@
 #include "SBottomBuildingsPanel.h"
 
 #include "SlateOptMacros.h"
+#include "Widgets/Layout/SScrollBox.h"
 
 BEGIN_SLATE_FUNCTION_BUILD_OPTIMIZATION
 
 SBottomBuildingsPanel::SBottomBuildingsPanel()
-{
-	SizeboxSize=FVector2D(500,500);
-}
+	:Size_BoxHeight(),
+	Size_BoxWidth()
+	{
+	
+	}
 
 void SBottomBuildingsPanel::Construct(const FArguments& InArgs)
 {
-
-	SetSize(InArgs._Size);
-	SetBrush(InArgs._BrushBG);
+	SetSize_BoxHeight(InArgs._SBHeight);
+	SetSize_BoxWidth(InArgs._SBWidth);
+	SetBrush(BGBrush);
+	
+	
 	ChildSlot
 	[
-		SNew(SBorder)
-		.BorderBackgroundColor(FLinearColor(0.0f, 0.0f, 0.0f, 0.5f))
-		.Padding(0.0f)
-		[
-			BuildUI()
-		]
+		BuildUI()
 	];
 	
 }
@@ -32,38 +32,57 @@ void SBottomBuildingsPanel::Construct(const FArguments& InArgs)
 TSharedRef<SWidget> SBottomBuildingsPanel::BuildUI()
 {
 
-	// Create the size box
-	TSharedRef<SBox> SizeBox = SNew(SBox)
-
-	.HAlign(HAlign_Fill)
-	.VAlign(VAlign_Bottom)
-	.HeightOverride(SizeboxSize.Y)
+	TSharedPtr<SOverlay>RootOverlay;
+	SAssignNew(RootOverlay,SOverlay)
+	+ SOverlay::Slot()
+			.HAlign(HAlign_Center)
+			.VAlign(VAlign_Bottom) // Changed from VAlign_Center
 		[
-			// Create the horizontal box
-		SNew(SHorizontalBox)
-			
-			+ SHorizontalBox::Slot()
-			.VAlign(VAlign_Fill)
-			.AutoWidth()
-			[
-			
-			SAssignNew(ImageWidget,SImage)
-				.Image(BGBrush.Get())
-			]
+			SAssignNew(SizeBox,SBox)
+			.WidthOverride_Lambda([this]() -> float {
+			// Retrieve the current value of Size_BoxWidth attribute
+			return Size_BoxWidth;
+		})
+		.HeightOverride_Lambda([this]() -> float {
+			// Retrieve the current value of Size_BoxHeight attribute
+			return Size_BoxHeight;
+		})
+				[
+					SAssignNew(ImageWidget,SImage)
+						.Image(BGBrush.Get())
+				]
 		];
 
-	return SizeBox;
+	return RootOverlay.ToSharedRef();
 }
+
+void SBottomBuildingsPanel::SetSize_BoxHeight(float InHeight)
+{
+	Size_BoxHeight =InHeight;
+}
+/*
+void SBottomBuildingsPanel::SetSize_BoxHeight(FOptionalSize InHeight)
+{
+	//Size_BoxHeight.Assign( *this ,InHeight);
+	Size_BoxHeight.Set(*this ,InHeight.Get());
+}
+
+void SBottomBuildingsPanel::SetSize_BoxWidth(FOptionalSize InWidth)
+{
+	//Size_BoxWidth.Assign(*this ,InWidth);
+	Size_BoxWidth.Set(*this,InWidth.Get());
+}*/
+
+void SBottomBuildingsPanel::SetSize_BoxWidth(float InWidth)
+{
+	Size_BoxWidth=InWidth;
+}
+
 void SBottomBuildingsPanel::SetBrush(TSharedPtr<FSlateBrush> Brush)
 {
 	BGBrush=Brush;
 	if(ImageWidget)
-	ImageWidget->SetImage(BGBrush.Get());
-}
-
-void SBottomBuildingsPanel::SetSize(FVector2D in_size)
-{
-	SizeboxSize=in_size;
+		ImageWidget->SetImage(BGBrush.Get());
 }
 
 

@@ -1,0 +1,225 @@
+﻿TSharedRef<SWidget> SBottomBuildingsPanel::Design1()
+{
+	
+	SAssignNew(SizeBox,SBox)// Set the height of the scrollable box
+	.HAlign(HAlign_Fill)
+	.VAlign(VAlign_Bottom)
+	[
+		SNew(SScrollBox)
+		.Orientation(Orient_Horizontal) // Set the orientation of the scroll box to horizontal
+		
+		+SScrollBox::Slot() // Add a slot to the scroll box
+		.HAlign(HAlign_Fill) // Align the slot horizontally
+		.VAlign(VAlign_Fill) // Align the slot vertically
+		[
+		SAssignNew(ImageWidget,SImage)
+		.Image(BGBrush.Get())
+		]
+		
+	];
+	return SizeBox.ToSharedRef();
+}
+
+TSharedRef<SWidget> SBottomBuildingsPanel::Design2()
+{
+
+	SAssignNew(SizeBox,SBox);
+	/*.WidthOverride(SizeboxSize.X) 
+		.HeightOverride(SizeboxSize.Y)
+		.HAlign(HAlign_Fill)
+		.VAlign(VAlign_Fill)
+	[
+	SNew(SBorder)
+		.Padding(0.0f)
+		.BorderBackgroundColor(FLinearColor::Blue)
+		.HAlign(HAlign_Fill)
+		.VAlign(VAlign_Fill)
+		[					
+			SAssignNew(RootHorizontalBox,SHorizontalBox)
+			.Tag(TEXT("RootBox"))
+		
+			+SHorizontalBox::Slot()
+				.HAlign(HAlign_Fill)
+				.VAlign(VAlign_Fill)
+				.MaxWidth(SizeboxSize.X/2)
+				.Padding(10.0f)
+				[
+						SNew(SOverlay)
+						+ SOverlay::Slot()
+						.HAlign(HAlign_Fill)
+						.VAlign(VAlign_Fill)
+						[
+							SNew(SImage)
+									.ColorAndOpacity(FLinearColor(0.5f,1.0f,0.5f,1.0f))
+							.Image(BGBrush.Get())
+						]
+						+ SOverlay::Slot()
+						.HAlign(HAlign_Fill)
+						.VAlign(VAlign_Fill)
+						[
+							SNew(SBorder)
+							   .Padding(0.0f)
+							   .BorderBackgroundColor(FLinearColor::Green)
+							   .HAlign(HAlign_Center)
+							   .VAlign(VAlign_Center)
+							   [
+									SNew(STextBlock)
+									.Text("SLOT 1")
+							   ]
+						]
+							
+				]
+
+
+				+SHorizontalBox::Slot()
+					.HAlign(HAlign_Fill)
+					.VAlign(VAlign_Fill)
+					.MaxWidth(SizeboxSize.X/2)
+					.Padding(5.0f)
+					[
+						SNew(SOverlay)
+							+ SOverlay::Slot()
+							.HAlign(HAlign_Fill)
+							.VAlign(VAlign_Fill)
+							[
+								SNew(SImage)
+								.ColorAndOpacity(FLinearColor(0.5f,1.0f,0.5f,1.0f))
+								.Image(BGBrush.Get())
+							]
+							+ SOverlay::Slot()
+							.HAlign(HAlign_Fill)
+							.VAlign(VAlign_Fill)
+							[
+								SNew(SBorder)
+								   .Padding(0.0f)
+								   .BorderBackgroundColor(FLinearColor::Green)
+								   .HAlign(HAlign_Center)
+								   .VAlign(VAlign_Center)
+								   [
+										SNew(STextBlock)
+										.Text("SLOT 2")
+								   ]
+							]
+					]
+
+
+		]
+	];
+
+
+	/*
+TSharedPtr<SHorizontalBox>HBox;
+	SAssignNew( HBox,SHorizontalBox)
+	+ SHorizontalBox::Slot()
+	.HAlign(HAlign_Center)
+	.VAlign(VAlign_Center)
+			.AutoWidth()
+			[
+			
+			SAssignNew(ImageWidget,SImage)
+				.Image(BGBrush.Get())
+			];
+
+	return HBox.ToSharedRef();*/
+
+	return SizeBox.ToSharedRef();
+}
+
+TSharedRef<SWidget> SBottomBuildingsPanel::Design3()
+{
+		TSharedPtr<SScrollBox>ScrollBox1;
+
+			SAssignNew(ScrollBox1,SScrollBox);
+
+	/*
+		+SScrollBox::Slot() .Padding(10,5)
+		[
+			SNew(SHorizontalBox)
+			+SHorizontalBox::Slot() .HAlign(HAlign_Left)
+			[
+				...
+			]
+			+SHorizontalBox::Slot() .HAlign(HAlign_Center)
+			[
+				...
+			]
+			+SHorizontalBox::Slot() .HAlign(HAlign_Right)
+			[
+				...
+			]
+		]
+		+SScrollBox::Slot() .Padding(10,5)
+		[
+			SNew(SHorizontalBox)
+			+SHorizontalBox::Slot() .FillWidth(2)
+			[
+				...
+			]
+			+SHorizontalBox::Slot() .FillWidth(1)
+			[
+				...
+			]
+			+SHorizontalBox::Slot() .FillWidth(3)
+			[
+				...
+			]
+		]*/
+
+	return ScrollBox1.ToSharedRef();
+}
+
+
+//sync 
+
+	if(BottomPanelWidget.IsValid())
+	{
+		BottomPanelWidget->SetBrush(BackgroundBrush);
+		BottomPanelWidget->SetSize(SizeBoxSize);
+		//SetWidgetAttribute(*BottomPanelWidget,BottomPanelWidget->TSize,Size_SizeBox,EInvalidateWidgetReason::LayoutAndVolatility );
+		//SetWidgetAttribute(*BottomPanelWidget,BottomPanelWidget->BGBrush,BackgroundBrush,EInvalidateWidgetReason::LayoutAndVolatility );
+			FString SizeBoxSizeString = BottomPanelWidget->TSize.Get().ToString();
+        	FColor MessageColor = FColor::Yellow;
+        	float DisplayTime = 2.0f;
+        	int32 Key = -1; // Automatically assigned key
+        	GEngine->AddOnScreenDebugMessage(Key, DisplayTime, MessageColor, SizeBoxSizeString);
+        	FString SizeBoxSizeString = BottomPanelWidget->TSize.Get().ToString();
+        	GEngine->AddOnScreenDebugMessage(-1, 5.0f, MessageColor, SizeBoxSizeString);
+	}
+	else
+	{
+		FString SizeBoxSizeString ="WIDGET CREATION FAILED";
+		FColor MessageColor = FColor::Yellow;
+		float DisplayTime = 2.0f;
+		int32 Key = -1; // Automatically assigned key
+		GEngine->AddOnScreenDebugMessage(Key, DisplayTime, FColor::Yellow, SizeBoxSizeString);
+	}
+	
+	
+	
+	
+	TSharedRef<SWidget> SBottomBuildingsPanel::BuildUI()
+    {
+    
+    	TSharedPtr<SOverlay>RootOverlay;
+    	SAssignNew(RootOverlay,SOverlay)
+    	+ SOverlay::Slot()
+    			.HAlign(HAlign_Center)
+    			.VAlign(VAlign_Bottom) // Changed from VAlign_Center
+    		[
+    			SAssignNew(SizeBox,SBox)
+    			.WidthOverride_Lambda([this]() -> FOptionalSize {
+    			// Retrieve the current value of Size_BoxWidth attribute
+    			return Size_BoxWidth.Get();
+    		})
+    		.HeightOverride_Lambda([this]() -> FOptionalSize {
+    			// Retrieve the current value of Size_BoxHeight attribute
+    			return Size_BoxHeight.Get();
+    		})
+    				[
+    					SAssignNew(ImageWidget,SImage)
+    						.Image(BGBrush.Get())
+    				]
+    		];
+    
+    	return RootOverlay.ToSharedRef();
+    }

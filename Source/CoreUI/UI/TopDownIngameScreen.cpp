@@ -8,42 +8,52 @@
 UTopDownIngameScreen::UTopDownIngameScreen(const FObjectInitializer& ObjectInitializer)
 : Super(ObjectInitializer)
 {
-	
+	//Height= FOptionalSize(400.0f);
+	//Width = FOptionalSize(1000.0f);
 }
 
 
 void UTopDownIngameScreen::SynchronizeProperties()
 {
 	Super::SynchronizeProperties();
+/*
+	if(BottomPanelWidget.IsValid())
+	{
+		float SizeValue = 200.0f;
+		TAttribute<FOptionalSize> SizeAttribute = TAttribute<FOptionalSize>::Create([SizeValue]() {
+			return FOptionalSize(SizeValue);
+		});
 
+		BottomPanelWidget->SetSize_BoxHeight(SizeAttribute);
+		BottomPanelWidget->SetSize_BoxWidth(SizeAttribute);
+
+	}
+	else
+	{
+
+		GEngine->AddOnScreenDebugMessage(-1, 5.0f,FColor::Black, " Widget creation failed ");
+	}
+*/
 
 	if(BottomPanelWidget.IsValid())
 	{
+		BottomPanelWidget->SetSize_BoxHeight(Height);
+		BottomPanelWidget->SetSize_BoxWidth(Width);
 		BottomPanelWidget->SetBrush(BackgroundBrush);
-		BottomPanelWidget->SetSize(SizeBoxSize);
 	}
-	// Display the SizeBoxSize as an on-screen debug message
-	//FString SizeBoxSizeString = SizeBoxSize.ToString();
-	if(BottomPanelWidget)
-	{
-			FString SizeBoxSizeString = BottomPanelWidget->SizeboxSize.ToString();
-        	FColor MessageColor = FColor::Yellow;
-        	float DisplayTime = 2.0f;
-        	int32 Key = -1; // Automatically assigned key
-        	GEngine->AddOnScreenDebugMessage(Key, DisplayTime, MessageColor, SizeBoxSizeString);
-	}
-	FString SizeBoxSizeString ="WIDGET CREATION FAILED";
-	FColor MessageColor = FColor::Yellow;
-	float DisplayTime = 2.0f;
-	int32 Key = -1; // Automatically assigned key
-	GEngine->AddOnScreenDebugMessage(Key, DisplayTime, MessageColor, SizeBoxSizeString);
-	
 }
 
 TSharedRef<SWidget> UTopDownIngameScreen::RebuildWidget()
 {
-	Super::RebuildWidget();
+	/*
+	SAssignNew(BottomPanelWidget,SBottomBuildingsPanel)
+	.BrushBG(BackgroundBrush)
+	.SBHeight(Height)
+	.SBWidth(Width);
+	
+	return BottomPanelWidget.ToSharedRef();*/
 	SAssignNew(BottomPanelWidget,SBottomBuildingsPanel);
+	
 	return BottomPanelWidget.ToSharedRef();
 }
 
@@ -76,7 +86,8 @@ void UTopDownIngameScreen::SetBackgroundImage(UTexture2D* Texture)
 	}
 }
 
-void UTopDownIngameScreen::SetSize(FVector2D in_Size)
+void UTopDownIngameScreen::SetSize(float inHeight, float inWidth)
 {
-	SizeBoxSize=in_Size;
+	Height=inHeight;
+	Width=inWidth;
 }

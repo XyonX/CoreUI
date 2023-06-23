@@ -2,6 +2,7 @@
 
 #include "CoreMinimal.h"
 #include "Blueprint/UserWidget.h"
+#include "Components/Button.h"
 #include "TopDownIngameScreen.generated.h"
 
 /**
@@ -22,22 +23,24 @@ public:
 	virtual TSharedRef<SWidget> RebuildWidget() override;
 	virtual void ReleaseSlateResources(bool bReleaseChildren) override;
 
-	UPROPERTY(EditAnywhere,BlueprintReadWrite,Category="Slate")
-	FVector2D SizeBoxSize;
-	UPROPERTY(EditAnywhere,BlueprintReadWrite,Category="Slate")
-	UTexture2D*BGImage;
-	
-	TSharedPtr<FSlateBrush>BackgroundBrush;
-	
 
+	//Functions
 	TSharedPtr<FSlateBrush> Convert_UT2D_SlateBrush(UTexture2D* NewImage);
 
-
 	void SetBackgroundImage (UTexture2D* Texture);
-	void SetSize (FVector2D in_Size);
+	void SetSize (float inHeight , float inWidth );
+
 
 private:
 	TSharedPtr<class SBottomBuildingsPanel> BottomPanelWidget;
+
+	
+	FVector2D SizeBoxSize;
+	UTexture2D*BGImage;
+	TSharedPtr<FSlateBrush>BackgroundBrush;
+	
+	float Width;
+	float Height;
 	
 };
 
