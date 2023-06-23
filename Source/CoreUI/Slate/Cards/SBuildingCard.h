@@ -20,7 +20,10 @@ public:
 
 	/** Constructs this widget with InArgs */
 	void Construct(const FArguments& InArgs);
+	
+	void SetBrush( TSharedPtr<FSlateBrush> Brush);
+	void SetBrush( UTexture2D* Texture );
 public:
 
-	TSharedPtr<FSlateBrush>Brush1;
+	TSharedPtr<FSlateBrush>Brush1; 
 };
