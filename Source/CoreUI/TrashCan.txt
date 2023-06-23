@@ -223,3 +223,14 @@ TSharedRef<SWidget> SBottomBuildingsPanel::Design3()
     
     	return RootOverlay.ToSharedRef();
     }
+    
+    
+    	TSharedPtr<FSlateBrush> Convert_UT2D_SlateBrush(UTexture2D* NewImage);
+    	
+    	TSharedPtr<FSlateBrush> UTestUMG::Convert_UT2D_SlateBrush(UTexture2D* NewImage)
+        {
+        	FSlateBrush* Brush = new FSlateBrush();
+        	Brush->SetResourceObject(NewImage);
+        	TSharedPtr<FSlateBrush>  Image  =MakeShareable(Brush);
+        	return Image;
+        }
