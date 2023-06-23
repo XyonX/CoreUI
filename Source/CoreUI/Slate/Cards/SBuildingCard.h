@@ -14,7 +14,7 @@ public:
 	SLATE_BEGIN_ARGS(SBuildingCard)
 		{
 		}
-	SLATE_ARGUMENT(TSharedPtr<FSlateBrush> , inBrush1)
+	SLATE_ARGUMENT(FLinearColor , inColor)
 
 	SLATE_END_ARGS()
 
@@ -23,6 +23,7 @@ public:
 	
 	void SetBrush( TSharedPtr<FSlateBrush> Brush);
 	void SetBrush( UTexture2D* Texture );
+	void SetBrush( FLinearColor inColor );
 public:
 
 	TSharedPtr<FSlateBrush>Brush1; 

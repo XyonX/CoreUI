@@ -3,11 +3,11 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "CoreUI/Slate/Cards/SBuildingCard.h"
 #include "Widgets/SCompoundWidget.h"
 
-/**
- * 
- */
+class SGridPanel;
+class SScrollBox;
 class COREUI_API SBottomBuildingsPanel : public SCompoundWidget
 {
 public:
@@ -35,6 +35,7 @@ public:
 	/**Set Brush */
 	void SetBrush( TSharedPtr<FSlateBrush> Brush);
 	void SetBrush( UTexture2D* Texture );
+	TArray<TSharedPtr<SBuildingCard>> ImageTiles;
 
 private:
 	
@@ -42,6 +43,10 @@ private:
 	TSharedPtr<SOverlay> OverlayBox;
 	TSharedPtr<SImage> ImageWidget;
 	TSharedPtr<FSlateBrush> BGBrush ;
+	TSharedPtr<class SScrollBox> ScrollBox;
+	TSharedPtr<class SGridPanel> GridPanel;
+
+	
 	
 	
 	float Size_BoxHeight;

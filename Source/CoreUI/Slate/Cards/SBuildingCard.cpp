@@ -9,7 +9,7 @@ BEGIN_SLATE_FUNCTION_BUILD_OPTIMIZATION
 
 void SBuildingCard::Construct(const FArguments& InArgs)
 {
-	Brush1=InArgs._inBrush1;
+	SetBrush(InArgs._inColor);
 	ChildSlot
 	[
          SNew(SOverlay)
@@ -18,8 +18,8 @@ void SBuildingCard::Construct(const FArguments& InArgs)
          .VAlign(VAlign_Center)
          [
 				SNew(SBox)
-				.HeightOverride(200)
-				.WidthOverride(200)
+				.HeightOverride(50)
+				.WidthOverride(50)
 				[
 					SNew(SImage)
 					.Image(Brush1.Get())
@@ -40,6 +40,7 @@ void SBuildingCard::SetBrush(TSharedPtr<FSlateBrush> Brush)
 	{
 		return;
 	}
+	Brush1->DrawAs =ESlateBrushDrawType::Image;
 	Brush1->SetResourceObject(Brush->GetResourceObject());
 }
 
@@ -55,6 +56,17 @@ void SBuildingCard::SetBrush(UTexture2D* Texture)
 		return;;
 	}
 	Brush1->SetResourceObject(Texture);
+}
+
+void SBuildingCard::SetBrush(FLinearColor inColor)
+{
+	if(Brush1==nullptr)
+	{
+		FSlateBrush* Br = new FSlateBrush();
+		Brush1 = MakeShareable(Br);
+	}
+	Brush1->DrawAs=ESlateBrushDrawType::Box;
+	Brush1->TintColor=inColor;
 }
 
 END_SLATE_FUNCTION_BUILD_OPTIMIZATION
