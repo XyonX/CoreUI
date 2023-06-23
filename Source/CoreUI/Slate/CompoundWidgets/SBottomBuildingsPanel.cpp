@@ -80,9 +80,31 @@ void SBottomBuildingsPanel::SetSize_BoxWidth(float InWidth)
 
 void SBottomBuildingsPanel::SetBrush(TSharedPtr<FSlateBrush> Brush)
 {
-	BGBrush=Brush;
-	if(ImageWidget)
-		ImageWidget->SetImage(BGBrush.Get());
+	if(BGBrush==nullptr)
+	{
+		FSlateBrush* Br = new FSlateBrush();
+		BGBrush = MakeShareable(Br);
+	}
+	if(Brush==nullptr)
+	{
+		return;
+	}
+	BGBrush->SetResourceObject(Brush->GetResourceObject());
+
+}
+
+void SBottomBuildingsPanel::SetBrush(UTexture2D* Texture)
+{
+	if(BGBrush==nullptr)
+	{
+		FSlateBrush* Br = new FSlateBrush();
+		BGBrush = MakeShareable(Br);
+	}
+	 if(Texture ==nullptr)
+	 {
+		 return;;
+	 }
+	BGBrush->SetResourceObject(Texture);
 }
 
 

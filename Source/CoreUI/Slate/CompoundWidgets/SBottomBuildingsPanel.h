@@ -34,6 +34,7 @@ public:
 
 	/**Set Brush */
 	void SetBrush( TSharedPtr<FSlateBrush> Brush);
+	void SetBrush( UTexture2D* Texture );
 
 private:
 	
