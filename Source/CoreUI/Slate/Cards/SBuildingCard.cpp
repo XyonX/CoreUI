@@ -4,6 +4,7 @@
 #include "SBuildingCard.h"
 
 #include "SlateOptMacros.h"
+//#include "../../../../../ProceduralGeneration/Source/ProceduralGeneration/Helpers/DelegateHelper.h"
 
 BEGIN_SLATE_FUNCTION_BUILD_OPTIMIZATION
 
@@ -17,7 +18,7 @@ void SBuildingCard::Construct(const FArguments& InArgs)
          .HAlign(HAlign_Center)
          .VAlign(VAlign_Center)
          [
-				SNew(SBox)
+				SAssignNew(CardBox,SBox)
 				.HeightOverride(50)
 				.WidthOverride(50)
 				[
@@ -67,6 +68,75 @@ void SBuildingCard::SetBrush(FLinearColor inColor)
 	}
 	Brush1->DrawAs=ESlateBrushDrawType::Box;
 	Brush1->TintColor=inColor;
+}
+
+FReply SBuildingCard::OnMouseButtonDown(const FGeometry& MyGeometry, const FPointerEvent& MouseEvent)
+{
+	if (MouseEvent.GetEffectingButton() == EKeys::LeftMouseButton)
+	{
+		GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Red, "Card Dragged");
+		// Set the drag offset to adjust the position of the widget during dragging
+		DragOffset = MyGeometry.AbsoluteToLocal(MouseEvent.GetScreenSpacePosition()) - MyGeometry.GetLocalSize() / 2.0f;
+		bIsDragging = true;
+		//DragStartedDelegate.Broadcast()
+
+		return FReply::Handled().CaptureMouse(SharedThis(this));
+	}
+
+	return FReply::Unhandled();
+}
+
+FReply SBuildingCard::OnMouseButtonUp(const FGeometry& MyGeometry, const FPointerEvent& MouseEvent)
+{
+	if (MouseEvent.GetEffectingButton() == EKeys::LeftMouseButton && bIsDragging)
+	{
+		GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Red, "Card Release");
+		bIsDragging = false;
+		// Perform any necessary actions upon dropping the card, such as spawning the building in the world
+
+		return FReply::Handled().ReleaseMouseCapture();
+	}
+
+	return FReply::Unhandled();
+}
+
+FReply SBuildingCard::OnMouseMove(const FGeometry& MyGeometry, const FPointerEvent& MouseEvent)
+{
+/*	if (bIsDragging)
+	{
+		// Update the position of the card UI during the drag operation
+		FVector2D MosueDelta =MouseEvent.GetScreenSpacePosition()-DragOffset;
+
+		return FReply::Handled();
+	}*/
+
+	return FReply::Unhandled();
+}
+
+void SBuildingCard::OnMouseEnter(const FGeometry& MyGeometry, const FPointerEvent& MouseEvent)
+{
+	bIsHovered = true;
+	UpdateCardSize();
+	SCompoundWidget::OnMouseEnter(MyGeometry, MouseEvent);
+}
+
+void SBuildingCard::OnMouseLeave(const FPointerEvent& MouseEvent)
+{
+	bIsHovered = false;
+	UpdateCardSize();
+	SCompoundWidget::OnMouseLeave(MouseEvent);
+}
+
+void SBuildingCard::UpdateCardSize()
+{
+	float TargetSize = bIsHovered? 60 :50 ;
+	if(CardBox.IsValid())
+	{
+		CardBox->SetHeightOverride(TargetSize);
+		CardBox->SetWidthOverride(TargetSize);
+	}
+
+
 }
 
 END_SLATE_FUNCTION_BUILD_OPTIMIZATION
