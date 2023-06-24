@@ -234,3 +234,11 @@ TSharedRef<SWidget> SBottomBuildingsPanel::Design3()
         	TSharedPtr<FSlateBrush>  Image  =MakeShareable(Brush);
         	return Image;
         }
+
+
+	ScrollBox->AddSlot()
+		.HAlign(HAlign_Fill)
+		.VAlign(VAlign_Fill)
+		[
+			SAssignNew(GridPanel, SGridPanel)
+		];

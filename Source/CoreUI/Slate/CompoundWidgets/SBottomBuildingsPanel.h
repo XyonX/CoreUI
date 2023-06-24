@@ -24,7 +24,10 @@ public:
 	
 	SBottomBuildingsPanel();
 	void Construct(const FArguments& InArgs);
+
+	void CreateCards ();
 	TSharedRef<SWidget> BuildUI();
+	void CreateGridTile ();
 
 	/** See WidthOverride attribute */
 	void SetSize_BoxHeight(float InHeight);

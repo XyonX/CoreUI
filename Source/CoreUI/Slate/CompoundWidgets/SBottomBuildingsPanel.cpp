@@ -22,16 +22,7 @@ void SBottomBuildingsPanel::Construct(const FArguments& InArgs)
 	SetSize_BoxWidth(InArgs._SBWidth);
 	SetBrush(BGBrush);
 
-
-	// Create ImageTile widgets and add them to the array
-	for (int32 i = 0; i < 20; i++)
-	{
-		TSharedPtr<SBuildingCard> ImageTile = SNew(SBuildingCard);
-		FLinearColor Color = FLinearColor::MakeRandomColor();
-		ImageTile->SetBrush(Color);
-		ImageTiles.Add(ImageTile);
-	}
-	
+	CreateCards ();
 	
 	ChildSlot
 	[
@@ -39,30 +30,20 @@ void SBottomBuildingsPanel::Construct(const FArguments& InArgs)
 	];
 
 
-	ScrollBox->AddSlot()
-		.HAlign(HAlign_Fill)
-		.VAlign(VAlign_Fill)
-		[
-			SAssignNew(GridPanel, SGridPanel)
-		];
-
-
-	int32 NumColumns = 4;
-	int32 TileIndex = 0;
-	for (int32 RowIndex = 0; RowIndex < ImageTiles.Num() / NumColumns; RowIndex++)
-	{
-		for (int32 ColumnIndex = 0; ColumnIndex < NumColumns; ColumnIndex++)
-		{
-			GridPanel->AddSlot(ColumnIndex, RowIndex)
-			.Padding(10.0f)
-			[
-				ImageTiles[TileIndex]->AsShared()
-			];
-
-			TileIndex++;
-		}
-	}
+	CreateGridTile();
 	
+}
+
+void SBottomBuildingsPanel::CreateCards()
+{
+	// Create ImageTile widgets and add them to the array
+	for (int32 i = 0; i < 100; i++)
+	{
+		TSharedPtr<SBuildingCard> ImageTile = SNew(SBuildingCard);
+		FLinearColor Color = FLinearColor::MakeRandomColor();
+		ImageTile->SetBrush(Color);
+		ImageTiles.Add(ImageTile);
+	}
 }
 
 TSharedRef<SWidget> SBottomBuildingsPanel::BuildUI()
@@ -85,14 +66,49 @@ TSharedRef<SWidget> SBottomBuildingsPanel::BuildUI()
 		})
 				[
 						SAssignNew(ScrollBox, SScrollBox)
-						.Orientation(Orient_Vertical)
+						.Orientation(Orient_Horizontal)
 						.ScrollBarAlwaysVisible(true)
 						.ScrollBarThickness(FVector2D(8.0f, 8.0f))
+						
+							+SScrollBox::Slot()
+								.HAlign(HAlign_Fill)
+								.VAlign(VAlign_Fill)
+							
+								[
+								SAssignNew(GridPanel, SGridPanel)
+								]
+						
 						
 				]
 		];
 
 	return RootOverlay.ToSharedRef();
+}
+
+void SBottomBuildingsPanel::CreateGridTile()
+{
+	int32 NumColumns = 20;
+	int32 TileIndex = 0;
+	for (int32 RowIndex = 0; RowIndex < ImageTiles.Num() / NumColumns; RowIndex++)
+	{
+		for (int32 ColumnIndex = 0; ColumnIndex < NumColumns; ColumnIndex++)
+		{
+			GridPanel->AddSlot(ColumnIndex, RowIndex)
+			.Padding(5.0f)
+			.HAlign(HAlign_Center)
+			.VAlign(VAlign_Center)
+			[
+				SNew(SBox)
+				.WidthOverride(50)
+				.HeightOverride(50)
+				[
+					ImageTiles[TileIndex]->AsShared()
+				]
+			];
+
+			TileIndex++;
+		}
+	}
 }
 
 void SBottomBuildingsPanel::SetSize_BoxHeight(float InHeight)
