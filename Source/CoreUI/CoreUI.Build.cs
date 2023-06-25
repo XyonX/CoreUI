@@ -30,7 +30,9 @@ public class CoreUI : ModuleRules
 				"Slate", 
 				"SlateCore",
 				"UnrealEd",
-				"InputCore"
+				"InputCore",
+				"CorePlugin"
+				
 			}
 			);
 			
@@ -41,7 +43,7 @@ public class CoreUI : ModuleRules
 				"CoreUObject",
 				"Engine",
 				"Slate",
-				"SlateCore", "EditorStyle",
+				"SlateCore", "EditorStyle","CorePlugin"
 				// ... add private dependencies that you statically link with here ...	
 			}
 			);

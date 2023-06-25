@@ -4,7 +4,7 @@
 #include "SBuildingCard.h"
 
 #include "SlateOptMacros.h"
-//#include "../../../../../ProceduralGeneration/Source/ProceduralGeneration/Helpers/DelegateHelper.h"
+#include "CorePlugin/Helpers/DelegateHelper.h"
 
 BEGIN_SLATE_FUNCTION_BUILD_OPTIMIZATION
 
@@ -18,12 +18,14 @@ void SBuildingCard::Construct(const FArguments& InArgs)
          .HAlign(HAlign_Center)
          .VAlign(VAlign_Center)
          [
+
+	        
 				SAssignNew(CardBox,SBox)
-				.HeightOverride(50)
-				.WidthOverride(50)
+				.HeightOverride(60)
+				.WidthOverride(60)
 				[
-					SNew(SImage)
-					.Image(Brush1.Get())
+			         SNew(SImage)
+					  .Image(Brush1.Get())
 				]
          ]
          
@@ -74,12 +76,11 @@ FReply SBuildingCard::OnMouseButtonDown(const FGeometry& MyGeometry, const FPoin
 {
 	if (MouseEvent.GetEffectingButton() == EKeys::LeftMouseButton)
 	{
-		GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Red, "Card Dragged");
+		//GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Red, "Card Dragged");
 		// Set the drag offset to adjust the position of the widget during dragging
 		DragOffset = MyGeometry.AbsoluteToLocal(MouseEvent.GetScreenSpacePosition()) - MyGeometry.GetLocalSize() / 2.0f;
 		bIsDragging = true;
-		//DragStartedDelegate.Broadcast()
-
+		ADelegateHelper::DragStartedDelegate.Broadcast();
 		return FReply::Handled().CaptureMouse(SharedThis(this));
 	}
 
