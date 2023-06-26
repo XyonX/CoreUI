@@ -80,7 +80,7 @@ FReply SBuildingCard::OnMouseButtonDown(const FGeometry& MyGeometry, const FPoin
 		// Set the drag offset to adjust the position of the widget during dragging
 		DragOffset = MyGeometry.AbsoluteToLocal(MouseEvent.GetScreenSpacePosition()) - MyGeometry.GetLocalSize() / 2.0f;
 		bIsDragging = true;
-		ADelegateHelper::DragStartedDelegate.Broadcast();
+		ADelegateHelper::DragDownDelegate.Broadcast();
 		return FReply::Handled().CaptureMouse(SharedThis(this));
 	}
 
@@ -95,6 +95,7 @@ FReply SBuildingCard::OnMouseButtonUp(const FGeometry& MyGeometry, const FPointe
 		bIsDragging = false;
 		// Perform any necessary actions upon dropping the card, such as spawning the building in the world
 
+		ADelegateHelper::DragUpDelegate.Broadcast();
 		return FReply::Handled().ReleaseMouseCapture();
 	}
 
@@ -103,16 +104,35 @@ FReply SBuildingCard::OnMouseButtonUp(const FGeometry& MyGeometry, const FPointe
 
 FReply SBuildingCard::OnMouseMove(const FGeometry& MyGeometry, const FPointerEvent& MouseEvent)
 {
-/*	if (bIsDragging)
+	/*
+	if (bIsDragging)
 	{
 		// Update the position of the card UI during the drag operation
 		FVector2D MosueDelta =MouseEvent.GetScreenSpacePosition()-DragOffset;
 
+		
+		ADelegateHelper::OnDragDelegate.Broadcast();
+
 		return FReply::Handled();
-	}*/
+	}
+
+	return FReply::Unhandled();*/
+
+	if (MouseEvent.IsMouseButtonDown(EKeys::LeftMouseButton))
+	{
+		// Get the mouse position relative to the widget's geometry
+		FVector2D MousePosition = MyGeometry.AbsoluteToLocal(MouseEvent.GetScreenSpacePosition());
+		FVector2D ScreenPosition = MyGeometry.LocalToAbsolute(MousePosition);
+		ADelegateHelper::OnDragDelegate.ExecuteIfBound(ScreenPosition);
+        
+		// Do something with the mouse position while the LMB is held down
+        
+		return FReply::Handled();
+	}
 
 	return FReply::Unhandled();
 }
+
 
 void SBuildingCard::OnMouseEnter(const FGeometry& MyGeometry, const FPointerEvent& MouseEvent)
 {

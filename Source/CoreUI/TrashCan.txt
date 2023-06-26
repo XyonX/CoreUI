@@ -242,3 +242,4 @@ TSharedRef<SWidget> SBottomBuildingsPanel::Design3()
 		[
 			SAssignNew(GridPanel, SGridPanel)
 		];
+DrawDebugLine(GetWorld(),CursorWorldPosition,CursorWorldHitLocation,FColor::Black,true,5);

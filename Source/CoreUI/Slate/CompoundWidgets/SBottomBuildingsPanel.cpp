@@ -37,7 +37,7 @@ void SBottomBuildingsPanel::Construct(const FArguments& InArgs)
 void SBottomBuildingsPanel::CreateCards()
 {
 	// Create ImageTile widgets and add them to the array
-	for (int32 i = 0; i < 100; i++)
+	for (int32 i = 0; i < 40; i++)
 	{
 		TSharedPtr<SBuildingCard> ImageTile = SNew(SBuildingCard);
 		FLinearColor Color = FLinearColor::MakeRandomColor();
@@ -60,10 +60,10 @@ TSharedRef<SWidget> SBottomBuildingsPanel::BuildUI()
 			// Retrieve the current value of Size_BoxWidth attribute
 			return Size_BoxWidth;
 		})
-		.HeightOverride_Lambda([this]() -> float {
+		/**.HeightOverride_Lambda([this]() -> float {
 			// Retrieve the current value of Size_BoxHeight attribute
 			return Size_BoxHeight;
-		})
+		})*/
 				[
 						SAssignNew(ScrollBox, SScrollBox)
 						.Orientation(Orient_Horizontal)
