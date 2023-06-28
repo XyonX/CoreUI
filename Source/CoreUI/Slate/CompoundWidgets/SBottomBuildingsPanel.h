@@ -3,56 +3,57 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "CoreUI/Slate/Cards/SBuildingCard.h"
 #include "Widgets/SCompoundWidget.h"
 
+class USpawnable;
 class SGridPanel;
 class SScrollBox;
+
 class COREUI_API SBottomBuildingsPanel : public SCompoundWidget
 {
 public:
 	SLATE_BEGIN_ARGS(SBottomBuildingsPanel)
 	{}
 	
-	SLATE_ARGUMENT(TSharedPtr<FSlateBrush>,BrushBG)
 	SLATE_ARGUMENT(float, SBHeight)
 	SLATE_ARGUMENT(float, SBWidth)
 	SLATE_END_ARGS()
 	
-
-	//FUNCTIONS
-	
 	SBottomBuildingsPanel();
+
+	
 	void Construct(const FArguments& InArgs);
 
-	void CreateCards ();
+	
 	TSharedRef<SWidget> BuildUI();
-	void CreateGridTile ();
 
-	/** See WidthOverride attribute */
+
+	/** Setter && Getters */ 
+
+	//pure Data 
 	void SetSize_BoxHeight(float InHeight);
-
-	/** See HeightOverride attribute */
 	void SetSize_BoxWidth(float InWidth );
 
-	/**Set Brush */
-	void SetBrush( TSharedPtr<FSlateBrush> Brush);
-	void SetBrush( UTexture2D* Texture );
-	TArray<TSharedPtr<SBuildingCard>> ImageTiles;
+	//References]
+	TSharedPtr<SOverlay> GetOverlay () {return MainOverlay;};
+	TSharedPtr<SBox>  GetSizeBox () {return BottomSizeBox;};
+	TSharedPtr<SScrollBox> GetScrollBox() {return BottomScrollBox;};
+	TSharedPtr<SGridPanel> GetGridPanel () {return  BottomGridPanel;};
+	
+
 
 private:
-	
-	TSharedPtr<SBox> SizeBox;
-	TSharedPtr<SOverlay> OverlayBox;
-	TSharedPtr<SImage> ImageWidget;
-	TSharedPtr<FSlateBrush> BGBrush ;
-	TSharedPtr<class SScrollBox> ScrollBox;
-	TSharedPtr<class SGridPanel> GridPanel;
 
-	
-	
-	
+	//Data Variables
 	float Size_BoxHeight;
 	float Size_BoxWidth;
+
+	// References
+	TSharedPtr<SOverlay> MainOverlay;
+	TSharedPtr<SBox> BottomSizeBox;
+	TSharedPtr<SScrollBox> BottomScrollBox;
+	TSharedPtr<SGridPanel> BottomGridPanel;
+	
 	
 };
+
