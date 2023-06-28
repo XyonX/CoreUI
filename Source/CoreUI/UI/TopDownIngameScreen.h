@@ -2,46 +2,58 @@
 
 #include "CoreMinimal.h"
 #include "Blueprint/UserWidget.h"
-#include "Components/Button.h"
+#include "CorePlugin/Spawnables/Spawnable.h"
 #include "TopDownIngameScreen.generated.h"
 
-/**
- * 
- */
+
 UCLASS()
 class COREUI_API UTopDownIngameScreen : public UUserWidget
 {
 	GENERATED_BODY()
 	
 public:
-	
-	UTopDownIngameScreen(const FObjectInitializer& ObjectInitializer);
-	
-	//virtual void NativeConstruct() override;
 
-	virtual void SynchronizeProperties() override;
+	/** Overrides */
+	
+	virtual void NativeConstruct() override;
 	virtual TSharedRef<SWidget> RebuildWidget() override;
+	virtual void SynchronizeProperties() override;
 	virtual void ReleaseSlateResources(bool bReleaseChildren) override;
 
 
-	//Functions
-	TSharedPtr<FSlateBrush> Convert_UT2D_SlateBrush(UTexture2D* NewImage);
+	/** Setter And Getter */
 
-	void SetBackgroundImage (UTexture2D* Texture);
-	void SetSize (float inHeight , float inWidth );
+	/*Data */
+	void SetSize (float inHeight , float inWidth ){Width=inWidth;Height=inHeight;};
+	void SetSpawnable (TMap<int32, USpawnable*>* inSpawnables){Spawnables=inSpawnables;};
 
+
+	/*References */
+	TSharedPtr<class SBottomBuildingsPanel> GetWidget () {return BottomPanelWidget;};
+	TArray<TSharedPtr<SBuildingCard>>* GetSpawnableCards () {return  &SpawnableCards;};
+	
+	
+	// Functions
+	bool GenerateCards ();
+	bool AddCardsToGrid(int NumRows );
+	
+
+	
 
 private:
-	TSharedPtr<class SBottomBuildingsPanel> BottomPanelWidget;
 
-	
-	FVector2D SizeBoxSize;
-	UTexture2D*BGImage;
-	TSharedPtr<FSlateBrush>BackgroundBrush;
-	
+	/* Data Variables */
 	float Width;
 	float Height;
+	TMap<int32, USpawnable*>*Spawnables;
+
+	/** Reference */
+	
+	TSharedPtr<class SBottomBuildingsPanel> BottomPanelWidget;
+	TArray<TSharedPtr<SBuildingCard>> SpawnableCards;
+	
 	
 };
+
 
 

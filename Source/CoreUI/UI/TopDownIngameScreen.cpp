@@ -1,60 +1,32 @@
-//Fill copyright notice
-
 #include"TopDownIngameScreen.h"
-
 #include "Components/PanelWidget.h"
+#include "CoreUI/Slate/Cards/SBuildingCard.h"
+#include "Widgets/Layout/SGridPanel.h"
 #include "CoreUI/Slate/CompoundWidgets/SBottomBuildingsPanel.h"
 
-UTopDownIngameScreen::UTopDownIngameScreen(const FObjectInitializer& ObjectInitializer)
-: Super(ObjectInitializer)
+
+void UTopDownIngameScreen::NativeConstruct()
 {
-	//Height= FOptionalSize(400.0f);
-	//Width = FOptionalSize(1000.0f);
-}
-
-
-void UTopDownIngameScreen::SynchronizeProperties()
-{
-	Super::SynchronizeProperties();
-/*
-	if(BottomPanelWidget.IsValid())
-	{
-		float SizeValue = 200.0f;
-		TAttribute<FOptionalSize> SizeAttribute = TAttribute<FOptionalSize>::Create([SizeValue]() {
-			return FOptionalSize(SizeValue);
-		});
-
-		BottomPanelWidget->SetSize_BoxHeight(SizeAttribute);
-		BottomPanelWidget->SetSize_BoxWidth(SizeAttribute);
-
-	}
-	else
-	{
-
-		GEngine->AddOnScreenDebugMessage(-1, 5.0f,FColor::Black, " Widget creation failed ");
-	}
-*/
-
-	if(BottomPanelWidget.IsValid())
-	{
-		BottomPanelWidget->SetSize_BoxHeight(Height);
-		BottomPanelWidget->SetSize_BoxWidth(Width);
-		BottomPanelWidget->SetBrush(BackgroundBrush);
-	}
+	Super::NativeConstruct();
+	RebuildWidget();
+	GenerateCards();
+	AddCardsToGrid(2);
 }
 
 TSharedRef<SWidget> UTopDownIngameScreen::RebuildWidget()
 {
-	/*
-	SAssignNew(BottomPanelWidget,SBottomBuildingsPanel)
-	.BrushBG(BackgroundBrush)
-	.SBHeight(Height)
-	.SBWidth(Width);
+	 return SAssignNew(BottomPanelWidget,SBottomBuildingsPanel);
+}
+
+void UTopDownIngameScreen::SynchronizeProperties()
+{
+	Super::SynchronizeProperties();
 	
-	return BottomPanelWidget.ToSharedRef();*/
-	SAssignNew(BottomPanelWidget,SBottomBuildingsPanel);
-	
-	return BottomPanelWidget.ToSharedRef();
+	if(BottomPanelWidget.IsValid())
+	{
+		BottomPanelWidget->SetSize_BoxHeight(Height);
+		BottomPanelWidget->SetSize_BoxWidth(Width);
+	}
 }
 
 void UTopDownIngameScreen::ReleaseSlateResources(bool bReleaseChildren)
@@ -63,31 +35,58 @@ void UTopDownIngameScreen::ReleaseSlateResources(bool bReleaseChildren)
 	BottomPanelWidget.Reset();
 }
 
-TSharedPtr<FSlateBrush> UTopDownIngameScreen::Convert_UT2D_SlateBrush(UTexture2D* NewImage)
+
+bool UTopDownIngameScreen::GenerateCards()
 {
-	FSlateBrush* Brush = new FSlateBrush();
-	Brush->SetResourceObject(NewImage);
-	TSharedPtr<FSlateBrush>  Image  =MakeShareable(Brush);
-	return Image;
+	for(const TPair<int32, USpawnable*>& Pair : *Spawnables)
+	{
+		int32 ID = Pair.Key;
+		USpawnable*Item = Pair.Value;
+		TSharedPtr<SBuildingCard> ImageTile = SNew(SBuildingCard);
+		ImageTile->SetBrush(Item->GetIcon());
+		Item->SetCard(ImageTile);
+		SpawnableCards.Add(ImageTile);
+		
+	}
+	return true;
 }
 
-
-void UTopDownIngameScreen::SetBackgroundImage(UTexture2D* Texture)
+bool UTopDownIngameScreen::AddCardsToGrid(int NumRows)
 {
-	if(BackgroundBrush==nullptr)
-	{
-		FSlateBrush* Brush = new FSlateBrush();
-		Brush->SetResourceObject(Texture);
-		BackgroundBrush = MakeShareable(Brush);
-	}
-	else
-	{
-		BackgroundBrush->SetResourceObject(Texture);
-	}
-}
+	TSharedPtr<SGridPanel> GP =BottomPanelWidget->GetGridPanel();
 
-void UTopDownIngameScreen::SetSize(float inHeight, float inWidth)
-{
-	Height=inHeight;
-	Width=inWidth;
+	int NumCols =(SpawnableCards.Num()/NumRows);
+	if(SpawnableCards.Num()%NumRows!=0)
+	{
+		NumCols++;
+	}
+	
+	int TileIndex=0;
+	for (int32 RowIndex = 0;RowIndex < NumRows; RowIndex++)
+	{
+		for (int32 ColumnIndex = 0; ColumnIndex < NumCols ; ColumnIndex++)
+		{
+			GP->AddSlot(ColumnIndex, RowIndex)
+			.Padding(5.0f)
+			.HAlign(HAlign_Center)
+			.VAlign(VAlign_Center)
+			[
+				SNew(SBox)
+				.WidthOverride(50)
+				.HeightOverride(50)
+				[
+					SpawnableCards[TileIndex]->AsShared()
+				]
+			];
+
+			TileIndex++;
+			if (!(TileIndex < SpawnableCards.Num()))
+            {
+                break;
+            }
+				
+		}
+	}
+
+	return true;
 }
