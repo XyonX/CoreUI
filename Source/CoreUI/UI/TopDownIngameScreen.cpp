@@ -9,8 +9,13 @@ void UTopDownIngameScreen::NativeConstruct()
 {
 	Super::NativeConstruct();
 	RebuildWidget();
-	GenerateCards();
-	AddCardsToGrid(2);
+	if(Spawnables)
+	{
+		GenerateCards();
+		AddCardsToGrid(2);
+	}
+	
+	
 }
 
 TSharedRef<SWidget> UTopDownIngameScreen::RebuildWidget()
@@ -26,6 +31,11 @@ void UTopDownIngameScreen::SynchronizeProperties()
 	{
 		BottomPanelWidget->SetSize_BoxHeight(Height);
 		BottomPanelWidget->SetSize_BoxWidth(Width);
+		if(SpawnableCards.IsEmpty())
+		{
+			GenerateCards();
+			AddCardsToGrid(2);
+		}
 	}
 }
 
@@ -43,6 +53,7 @@ bool UTopDownIngameScreen::GenerateCards()
 		int32 ID = Pair.Key;
 		USpawnable*Item = Pair.Value;
 		TSharedPtr<SBuildingCard> ImageTile = SNew(SBuildingCard);
+		//.inTexture(Item->GetIcon());
 		ImageTile->SetBrush(Item->GetIcon());
 		Item->SetCard(ImageTile);
 		SpawnableCards.Add(ImageTile);

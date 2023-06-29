@@ -10,7 +10,8 @@ BEGIN_SLATE_FUNCTION_BUILD_OPTIMIZATION
 
 void SBuildingCard::Construct(const FArguments& InArgs)
 {
-	SetBrush(InArgs._inColor);
+
+	Brush1=CreateBrush();
 	ChildSlot
 	[
          SNew(SOverlay)
@@ -21,15 +22,21 @@ void SBuildingCard::Construct(const FArguments& InArgs)
 
 	        
 				SAssignNew(CardBox,SBox)
-				.HeightOverride(60)
-				.WidthOverride(60)
+				.HeightOverride(64)
+				.WidthOverride(64)
 				[
-			         SNew(SImage)
+			         SAssignNew(Icon,SImage)
 					  .Image(Brush1.Get())
 				]
          ]
          
 	];
+}
+
+TSharedPtr<FSlateBrush> SBuildingCard::CreateBrush()
+{
+	FSlateBrush* Br = new FSlateBrush();
+	return MakeShareable(Br);
 }
 
 void SBuildingCard::SetBrush(TSharedPtr<FSlateBrush> Brush)
@@ -58,7 +65,9 @@ void SBuildingCard::SetBrush(UTexture2D* Texture)
 	{
 		return;;
 	}
+	Brush1->DrawAs=ESlateBrushDrawType::Image;
 	Brush1->SetResourceObject(Texture);
+	Brush1->TintColor = FLinearColor::White;
 }
 
 void SBuildingCard::SetBrush(FLinearColor inColor)
@@ -70,6 +79,21 @@ void SBuildingCard::SetBrush(FLinearColor inColor)
 	}
 	Brush1->DrawAs=ESlateBrushDrawType::Box;
 	Brush1->TintColor=inColor;
+
+	
+}
+
+void SBuildingCard::SetBrush_New(UTexture2D* Texture)
+{
+	if (Texture == nullptr)
+	{
+		return;
+	}
+	FSlateBrush* Br = new FSlateBrush();
+	Brush1 = MakeShareable(Br);
+	Icon->SetImage(Brush1.Get());
+	Brush1->DrawAs=ESlateBrushDrawType::Image;
+	Brush1->SetResourceObject(Texture);
 }
 
 FReply SBuildingCard::OnMouseButtonDown(const FGeometry& MyGeometry, const FPointerEvent& MouseEvent)

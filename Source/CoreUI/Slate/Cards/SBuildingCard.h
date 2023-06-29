@@ -15,6 +15,7 @@ public:
 		{
 		}
 	SLATE_ARGUMENT(FLinearColor , inColor)
+	SLATE_ARGUMENT(UTexture2D* , inTexture)
 
 	SLATE_END_ARGS()
 
@@ -23,10 +24,15 @@ public:
 
 
 	/** Setter function */
+	TSharedPtr<FSlateBrush> CreateBrush ();
 	void SetBrush( TSharedPtr<FSlateBrush> Brush);
 	void SetBrush( UTexture2D* Texture );
 	void SetBrush( FLinearColor inColor );
+	void SetBrush_New (UTexture2D* Texture);
 
+
+	/** Getter Function */
+	
 
 	/** Mouse Effects */
 	virtual FReply OnMouseButtonDown(const FGeometry& MyGeometry, const FPointerEvent& MouseEvent) override;
@@ -46,6 +52,7 @@ private:
 
 	TSharedPtr<FSlateBrush>Brush1;
 	TSharedPtr<SBox>CardBox;
+	TSharedPtr<SImage>Icon;
 	
 	
 };
