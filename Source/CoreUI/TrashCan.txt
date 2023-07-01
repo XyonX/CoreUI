@@ -389,3 +389,7 @@ UTexture2D* ARenderActor::CaptureRenderedTexture()
         		}
         	}
         }
+        
+        	//Instance = NewObject<ASpawnableActor>(GetTransientPackage(), TEXT("MyActorInstance"));
+        	//Instance->Init_PostBeginPlay(Mesh,Mat_Interface,ID);
+        	//Instance->SetActorHiddenInGame(true);

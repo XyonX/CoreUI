@@ -3,6 +3,7 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "CorePlugin/Spawnables/Spawnable.h"
 #include "Widgets/SCompoundWidget.h"
 
 /**
@@ -23,12 +24,14 @@ public:
 	void Construct(const FArguments& InArgs);
 
 
-	/** Setter function */
+	/** Setter and Getters */
 	TSharedPtr<FSlateBrush> CreateBrush ();
 	void SetBrush( TSharedPtr<FSlateBrush> Brush);
 	void SetBrush( UTexture2D* Texture );
 	void SetBrush( FLinearColor inColor );
 	void SetBrush_New (UTexture2D* Texture);
+	void SetSpawnable (USpawnable*inSpawnable){Spawnable=inSpawnable;};
+	USpawnable*GetSpawnable(){return Spawnable;};
 
 
 	/** Getter Function */
@@ -53,6 +56,7 @@ private:
 	TSharedPtr<FSlateBrush>Brush1;
 	TSharedPtr<SBox>CardBox;
 	TSharedPtr<SImage>Icon;
+	USpawnable*Spawnable;
 	
 	
 };

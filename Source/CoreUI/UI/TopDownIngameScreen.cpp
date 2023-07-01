@@ -51,11 +51,11 @@ bool UTopDownIngameScreen::GenerateCards()
 	for(const TPair<int32, USpawnable*>& Pair : *Spawnables)
 	{
 		int32 ID = Pair.Key;
-		USpawnable*Item = Pair.Value;
+		USpawnable*Spawnable = Pair.Value;
 		TSharedPtr<SBuildingCard> ImageTile = SNew(SBuildingCard);
-		//.inTexture(Item->GetIcon());
-		ImageTile->SetBrush(Item->GetIcon());
-		Item->SetCard(ImageTile);
+		ImageTile->SetBrush(Spawnable->GetIcon());
+		ImageTile->SetSpawnable(Spawnable);
+		Spawnable->SetCard(ImageTile);
 		SpawnableCards.Add(ImageTile);
 		
 	}

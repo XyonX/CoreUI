@@ -104,7 +104,7 @@ FReply SBuildingCard::OnMouseButtonDown(const FGeometry& MyGeometry, const FPoin
 		// Set the drag offset to adjust the position of the widget during dragging
 		DragOffset = MyGeometry.AbsoluteToLocal(MouseEvent.GetScreenSpacePosition()) - MyGeometry.GetLocalSize() / 2.0f;
 		bIsDragging = true;
-		ADelegateHelper::DragDownDelegate.Broadcast();
+		ADelegateHelper::DragDelegate_Down.Broadcast(Spawnable);
 		return FReply::Handled().CaptureMouse(SharedThis(this));
 	}
 
@@ -119,7 +119,7 @@ FReply SBuildingCard::OnMouseButtonUp(const FGeometry& MyGeometry, const FPointe
 		bIsDragging = false;
 		// Perform any necessary actions upon dropping the card, such as spawning the building in the world
 
-		ADelegateHelper::DragUpDelegate.Broadcast();
+		ADelegateHelper::DragDelegate_Up.Broadcast();
 		return FReply::Handled().ReleaseMouseCapture();
 	}
 
