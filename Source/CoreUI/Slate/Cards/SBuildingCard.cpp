@@ -111,6 +111,28 @@ FReply SBuildingCard::OnMouseButtonDown(const FGeometry& MyGeometry, const FPoin
 	return FReply::Unhandled();
 }
 
+FReply SBuildingCard::OnMouseMove(const FGeometry& MyGeometry, const FPointerEvent& MouseEvent)
+{
+
+	if (MouseEvent.IsMouseButtonDown(EKeys::LeftMouseButton))
+	{
+		// Get the mouse position relative to the widget's geometry
+		//FVector2D MousePosition = MyGeometry.AbsoluteToLocal(MouseEvent.GetScreenSpacePosition());
+		//FVector2D ScreenPosition = MyGeometry.LocalToAbsolute(MousePosition);
+		//FVector2d ScreenPosition =FSlateApplication::Get().GetCursorPos();
+
+		// Get the screen space position of the mouse cursor
+		FVector2D ScreenPosition = MouseEvent.GetScreenSpacePosition();
+		
+
+		ADelegateHelper::OnDragDelegate.ExecuteIfBound(ScreenPosition);
+		
+        
+		return FReply::Handled();
+	}
+
+	return FReply::Unhandled();
+}
 FReply SBuildingCard::OnMouseButtonUp(const FGeometry& MyGeometry, const FPointerEvent& MouseEvent)
 {
 	if (MouseEvent.GetEffectingButton() == EKeys::LeftMouseButton && bIsDragging)
@@ -121,37 +143,6 @@ FReply SBuildingCard::OnMouseButtonUp(const FGeometry& MyGeometry, const FPointe
 
 		ADelegateHelper::DragDelegate_Up.Broadcast();
 		return FReply::Handled().ReleaseMouseCapture();
-	}
-
-	return FReply::Unhandled();
-}
-
-FReply SBuildingCard::OnMouseMove(const FGeometry& MyGeometry, const FPointerEvent& MouseEvent)
-{
-	/*
-	if (bIsDragging)
-	{
-		// Update the position of the card UI during the drag operation
-		FVector2D MosueDelta =MouseEvent.GetScreenSpacePosition()-DragOffset;
-
-		
-		ADelegateHelper::OnDragDelegate.Broadcast();
-
-		return FReply::Handled();
-	}
-
-	return FReply::Unhandled();*/
-
-	if (MouseEvent.IsMouseButtonDown(EKeys::LeftMouseButton))
-	{
-		// Get the mouse position relative to the widget's geometry
-		FVector2D MousePosition = MyGeometry.AbsoluteToLocal(MouseEvent.GetScreenSpacePosition());
-		FVector2D ScreenPosition = MyGeometry.LocalToAbsolute(MousePosition);
-		ADelegateHelper::OnDragDelegate.ExecuteIfBound(ScreenPosition);
-        
-		// Do something with the mouse position while the LMB is held down
-        
-		return FReply::Handled();
 	}
 
 	return FReply::Unhandled();

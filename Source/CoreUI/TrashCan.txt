@@ -393,3 +393,34 @@ UTexture2D* ARenderActor::CaptureRenderedTexture()
         	//Instance = NewObject<ASpawnableActor>(GetTransientPackage(), TEXT("MyActorInstance"));
         	//Instance->Init_PostBeginPlay(Mesh,Mat_Interface,ID);
         	//Instance->SetActorHiddenInGame(true);
+        	
+        	
+        	
+        	int32 ATopDownPlayerController::CalculateClosestInstance(ASpawnableActor* SelectedActor, FVector HitLocation, TArray<int32> OutOverlappingIndices,int32 inCurrentInstanceIndex)
+            {
+            	UInstancedStaticMeshComponent* ISMC =SelectedActor->GetInstanceMesh();
+            	OutOverlappingIndices.Remove(inCurrentInstanceIndex);
+            	
+            	float NearestDistance=100000 ;
+            	float NearestInstanceIndex = -1;
+            	FVector NearestInstanceLocation;
+            	
+            	for (int32 index : OutOverlappingIndices)
+            	{
+            		FTransform OutTransform;
+            		ISMC->GetInstanceTransform(index,OutTransform,true);
+            
+            		float CurrentDistance =FVector::DistSquared(HitLocation,OutTransform.GetLocation());
+            		if(CurrentDistance<NearestDistance)
+            		{
+            			NearestDistance=CurrentDistance;
+            			NearestInstanceIndex = index;
+            			NearestInstanceLocation=OutTransform.GetLocation();
+            
+            		}
+            		
+            	}
+            	FString DebugMessage = FString::Printf(TEXT("Nearest Instance Location  : %f , %f,%f"),NearestInstanceLocation.X,NearestInstanceLocation.Y,NearestInstanceLocation.Z);
+            	GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Red, DebugMessage);
+            	return NearestInstanceIndex;
+            }
