@@ -424,3 +424,71 @@ UTexture2D* ARenderActor::CaptureRenderedTexture()
             	GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Red, DebugMessage);
             	return NearestInstanceIndex;
             }
+            
+            
+            
+
+
+bool ABaseLandscapeActor::ImportHeightMap(const FString& inFilePath, int32 ImageSize, TArray<float>& OutHeightMap)
+{
+	// Load the image file
+	TArray<uint8> FileData;
+	if (!FFileHelper::LoadFileToArray(FileData, *inFilePath))
+	{
+		// Failed to load the file
+		GEngine->AddOnScreenDebugMessage(-1, 10.0f, FColor::Red,"Failed to load the file");
+		return false;
+	}
+	/*
+
+	// Get the image wrapper module
+	IImageWrapperModule& ImageWrapperModule = FModuleManager::LoadModuleChecked<IImageWrapperModule>(FName("ImageWrapper"));
+
+	// Detect the image format from the file extension
+	EImageFormat ImageFormat = ImageWrapperModule.DetectImageFormat(FileData.GetData(), FileData.Num());
+	if (ImageFormat == EImageFormat::Invalid)
+	{
+		// Failed to detect the image format
+		GEngine->AddOnScreenDebugMessage(-1, 10.0f, FColor::Red,"Failed to detect the image format");
+		return false;
+	}
+
+	// Create the image wrapper for the detected format
+	TSharedPtr<IImageWrapper> ImageWrapper = ImageWrapperModule.CreateImageWrapper(ImageFormat);
+	if (!ImageWrapper.IsValid() || !ImageWrapper->SetCompressed(FileData.GetData(), FileData.Num()))
+	{
+		GEngine->AddOnScreenDebugMessage(-1, 10.0f, FColor::Red,"Failed to create image wrapper or set the compressed data");
+		// Failed to create image wrapper or set the compressed data
+		return false;
+	}
+
+	// Convert the image to RGBA32 format
+	TArray64<uint8> RawData;
+	if (!ImageWrapper->GetRaw(ERGBFormat::Gray, 8, RawData))
+	{
+		GEngine->AddOnScreenDebugMessage(-1, 10.0f, FColor::Red,"Failed to get the raw data");
+		// Failed to get the raw data
+		return false;
+	}
+
+	// Check if the image size matches the desired size
+	if (ImageWrapper->GetWidth() != ImageSize || ImageWrapper->GetHeight() != ImageSize)
+	{
+		GEngine->AddOnScreenDebugMessage(-1, 10.0f, FColor::Red,"Image size does not match the desired size");
+		// Image size does not match the desired size
+		return false;
+	}
+
+	// Clear the height map array
+	OutHeightMap.Empty();
+
+	// Iterate through the pixel data and extract the height values
+	for (int32 i = 0; i < RawData.Num(); ++i)
+	{
+		// Convert the pixel value to a normalized height value in the range of 0.0 to 1.0
+		float Height = static_cast<float>(RawData[i]) / 255.0f;
+		// Add the height value to the height map array
+		OutHeightMap.Add(Height);
+	}
+
+	return true;*/
