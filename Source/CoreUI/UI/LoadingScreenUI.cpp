@@ -4,6 +4,7 @@
 #include "LoadingScreenUI.h"
 #include "CoreUI/Slate/LoadingScreen/SLoadingScreenLayout.h"
 
+
 void ULoadingScreenUI::NativeConstruct()
 {
 	Super::NativeConstruct();
@@ -12,7 +13,10 @@ void ULoadingScreenUI::NativeConstruct()
 
 TSharedRef<SWidget> ULoadingScreenUI::RebuildWidget()
 {
-	return SAssignNew(LoadingScreenWidget,SLoadingScreenLayout);
+	//return SAssignNew(LoadingScreenWidget,SLoadingScreenLayout);
+	// Create the LoadingScreenWidget and store it in the member variable.
+	SAssignNew(LoadingScreenWidget, SLoadingScreenLayout);
+	return LoadingScreenWidget.ToSharedRef();
 }
 
 void ULoadingScreenUI::SynchronizeProperties()
@@ -25,6 +29,7 @@ void ULoadingScreenUI::SynchronizeProperties()
 		LoadingScreenWidget->SetScreen_Width(ScreenWidth);
 		LoadingScreenWidget->SetBrush_StartButton(Brush_StartButton);
 		LoadingScreenWidget->SetBrush_Background(Brush_Background);
+		LoadingScreenWidget->SetStyle_StartButton(ButtonStyle_StartButton);
 	}
 }
 

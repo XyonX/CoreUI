@@ -43,7 +43,7 @@ public class CoreUI : ModuleRules
 				"CoreUObject",
 				"Engine",
 				"Slate",
-				"SlateCore", "EditorStyle","CorePlugin"
+				"SlateCore", "EditorStyle"
 				// ... add private dependencies that you statically link with here ...	
 			}
 			);

@@ -2,8 +2,10 @@
 
 
 #include "SLoadingScreenLayout.h"
-
 #include "SlateOptMacros.h"
+#include "AITestSuite/Public/AITestsCommon.h"
+#include "CorePlugin/Helpers/DelegateHelper.h"
+#include "Kismet/GameplayStatics.h"
 
 BEGIN_SLATE_FUNCTION_BUILD_OPTIMIZATION
 
@@ -58,7 +60,9 @@ void SLoadingScreenLayout::Construct(const FArguments& InArgs)
 							SNew(SButton)
 							.HAlign(HAlign_Fill)
 							.VAlign(VAlign_Fill)
+							.DesiredSizeScale(FVector2D(200.0f, 50.0f))
 							.ButtonStyle(Style_StartButton.Get())
+							.OnClicked(this, &SLoadingScreenLayout::OnStartButtonClicked)
 					  ]
 					
 				]
@@ -92,7 +96,7 @@ void SLoadingScreenLayout::SetBrush_Background(UTexture2D* Texture)
 	}
 	if(Texture ==nullptr)
 	{
-		return;;
+		return;
 	}
 	Brush_Background->DrawAs=ESlateBrushDrawType::Image;
 	Brush_Background->SetResourceObject(Texture);
@@ -144,6 +148,18 @@ void SLoadingScreenLayout::SetBrush_StartButton(FLinearColor inColor)
 	}
 	Brush_StartButton->DrawAs=ESlateBrushDrawType::Box;
 	Brush_StartButton->TintColor=inColor;
+}
+
+void SLoadingScreenLayout::SetStyle_StartButton(TSharedPtr<FButtonStyle> Style)
+{
+
+	Style_StartButton=Style;
+}
+
+FReply SLoadingScreenLayout::OnStartButtonClicked()
+{
+	ADelegateHelper::OnStartButtonClicked.Broadcast();
+	return FReply::Handled();
 }
 
 END_SLATE_FUNCTION_BUILD_OPTIMIZATION

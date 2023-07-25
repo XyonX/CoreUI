@@ -30,6 +30,7 @@ public:
 
 	TSharedPtr<FSlateBrush> Brush_Background;
 	TSharedPtr<FSlateBrush> Brush_StartButton;
+	TSharedPtr<FButtonStyle>ButtonStyle_StartButton;
 
 
 private:

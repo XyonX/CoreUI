@@ -42,7 +42,14 @@ public:
 	void SetBrush_StartButton(TSharedPtr<FSlateBrush> Brush);
 	void SetBrush_StartButton(UTexture2D* Texture);
 	void SetBrush_StartButton(FLinearColor inColor);
-	
+
+
+	//Set Style
+	void SetStyle_StartButton(TSharedPtr<FButtonStyle> Style);
+
+
+	//Click Events
+	FReply OnStartButtonClicked();
 	
 
 
